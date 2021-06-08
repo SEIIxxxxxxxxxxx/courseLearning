@@ -18,7 +18,7 @@ public class DiscountCouponStrategy extends AbstractCouponStrategy {
             return false;
         }
         // 判断满减策略
-        return super.canUse(orderVO, coupon) && (Double)discount > 0 && (Double)discount < 1;
+        return super.canUse(orderVO, coupon) && Double.parseDouble((String) discount) > 0 && Double.parseDouble((String)discount) < 1;
     }
     @Override
     public int useCoupon(CourseOrderVO orderVO, Coupon coupon) {
