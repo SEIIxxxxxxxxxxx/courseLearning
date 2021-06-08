@@ -22,6 +22,17 @@
     >
       {{ msg }}
     </v-alert>
+    <!-- alert -->
+    <v-alert
+      class="alert"
+      outlined
+      type="warning"
+      text
+      v-show="showCheckDialog"
+      transition="scroll-y-transition"
+    >
+      请检查信息是否完整填写且格式正确！
+    </v-alert>
     <v-container class="pl-16 pr-16">
       <form class="pa-12 grey lighten-5 mt-8">
         <v-text-field v-model="couponInfo.name" label="优惠名称"></v-text-field>
@@ -129,6 +140,7 @@ export default {
 
       showSuccessDialog: false,
       showFailDialog: false,
+      showCheckDialog: false,
       msg: ""
     };
   },
@@ -142,6 +154,32 @@ export default {
         metadata: JSON.stringify(this.meta)
       };
       console.log(payload);
+      if (!this.couponInfo.startTime) {
+        this.showCheckDialog = true;
+        setTimeout(() => {
+          this.showCheckDialog = false;
+        }, 1000);
+        return false;
+      }
+      if (!this.couponInfo.endTime) {
+        this.showCheckDialog = true;
+        setTimeout(() => {
+          this.showCheckDialog = false;
+        }, 1000);
+        return false;
+      }
+      if (
+        !(
+          this.check(this.couponInfo.startTime) &&
+          this.check(this.couponInfo.endTime)
+        )
+      ) {
+        this.showCheckDialog = true;
+        setTimeout(() => {
+          this.showCheckDialog = false;
+        }, 1000);
+        return false;
+      }
       createCoupon(payload).then(res => {
         console.log(res);
         if (res.code === 1) {
@@ -158,6 +196,10 @@ export default {
           }, 1000);
         }
       });
+    },
+    check(date) {
+      const reg = /^((((19|20)[0-9][0-9]-(0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))|((19|20)[0-9][0-9]-(0[2469]|11)-(0[1-9]|[12][0-9]|30))) (20|21|22|23|[0-1][0-9]):[0-5][0-9]:[0-5][0-9])$/;
+      return reg.test(date);
     }
   }
 };

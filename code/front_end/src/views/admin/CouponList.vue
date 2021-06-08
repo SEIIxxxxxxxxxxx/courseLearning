@@ -117,6 +117,7 @@ export default {
   mounted() {
     getCouponList().then(res => {
       this.couponList = res.data || [];
+      this.dealCoupon();
     });
   },
   methods: {
@@ -156,6 +157,26 @@ export default {
           }, 1000);
         }
       });
+    },
+    dealCoupon() {
+      for (let i = 0; i < this.couponList.length; i++) {
+        let obj = JSON.parse(this.couponList[i].metadata);
+        let res = "";
+        if (!obj["threshold"]) {
+          res = res + "减价门槛：" + obj["threshold"] + " ";
+          res = res + "减价金额：" + obj["cutDown"] + " ";
+        } else {
+          res = res + "折扣：" + obj["discount"] + " ";
+        }
+        if (obj["courseId"]) {
+          res = res + "课程ID：" + obj["courseId"] + " ";
+        } else if (obj["teacherID"]) {
+          res = res + "教师ID：" + obj["teacherId"] + " ";
+        } else {
+          res = res + "学校ID：" + obj["schoolId"] + " ";
+        }
+        this.couponList[i].metadata = res;
+      }
     }
   }
 };
