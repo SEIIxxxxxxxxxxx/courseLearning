@@ -162,7 +162,7 @@ export default {
       for (let i = 0; i < this.couponList.length; i++) {
         let obj = JSON.parse(this.couponList[i].metadata);
         let res = "";
-        if (!obj["threshold"]) {
+        if (this.couponList[i].type === "减价型") {
           res = res + "减价门槛：" + obj["threshold"] + " ";
           res = res + "减价金额：" + obj["cutDown"] + " ";
         } else {
