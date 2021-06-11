@@ -68,7 +68,7 @@ public class CourseOrderServiceImpl implements CourseOrderService {
             // TODO 先前似乎已经扣过了，这里就不扣了
             UserVO user = userService.getUser(order.getUserId());
             if(user.getBalance()>=order.getCost()){
-                userService.decreaseBalance(user.getId(), order.getCost());
+                //userService.decreaseBalance(user.getId(), order.getCost());
                 updateUserCoupon(orderId, user.getId());
             }else
                 return new ResultVO<>(Constant.REQUEST_FAIL, "用户余额不足");

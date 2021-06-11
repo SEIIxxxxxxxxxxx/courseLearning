@@ -278,6 +278,9 @@ import {
 import { getAvailableCouponsForOrder } from "@/api/coupon";
 
 export default {
+  //刷新
+  inject: ["reload"],
+
   name: "StudentCourseList",
 
   components: {
@@ -520,6 +523,8 @@ export default {
         this.snackBarColor = "success";
         this.snackBarMsg = res.msg;
         this.showSnackBar = true;
+        //刷新
+        this.reload();
       });
     },
     leaveSettlement() {
