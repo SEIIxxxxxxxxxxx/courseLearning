@@ -1,3 +1,8 @@
+drop database if exists courselearning;
+create database if not exists `courselearning` default charset utf8;
+
+use `courselearning`;
+
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -136,6 +141,26 @@ CREATE TABLE `user_coupon`  (
   `nums` int(11) NOT NULL,
   PRIMARY KEY (`user_id`, `coupon_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for question
+-- ----------------------------
+DROP TABLE IF EXISTS `question`;
+CREATE TABLE `question`  (
+   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+   `stem` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+   `options` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+   `analysis` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+   `answer` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+   `course_id` int(11) NOT NULL,
+   PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of user_info
+-- ----------------------------
+INSERT INTO `question` VALUES (1, '单选题', '石大佬迟到了几次？', '2::3::4::5', '无', 'C', 1);
 
 -- ----------------------------
 -- Table structure for user_info

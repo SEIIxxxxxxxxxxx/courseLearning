@@ -10,7 +10,8 @@
 import Vue from "vue";
 
 export default Vue.extend({
-  computed: undefined, watch: undefined,
+  computed: undefined,
+  watch: undefined,
   name: "App",
   provide() {
     return {

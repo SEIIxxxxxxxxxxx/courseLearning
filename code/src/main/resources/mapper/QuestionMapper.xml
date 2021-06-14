@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.seecoder.courselearning.mapperservice.exam.QuestionMapper">
+    <resultMap id="BaseResultMap" type="cn.seecoder.courselearning.po.exam.Question">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="type" jdbcType="VARCHAR" property="type" />
+        <result column="stem" jdbcType="VARCHAR" property="stem" />
+        <result column="options" jdbcType="VARCHAR" property="options" />
+        <result column="analysis" jdbcType="VARCHAR" property="analysis" />
+        <result column="answer" jdbcType="VARCHAR" property="answer" />
+        <result column="course_id" jdbcType="INTEGER" property="courseID" />
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from question
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="cn.seecoder.courselearning.po.exam.Question" useGeneratedKeys="true" keyProperty="id">
+        insert into question (id, type, stem, options, analysis, answer, course_id)
+        values (#{id,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{stem,jdbcType=VARCHAR}, #{options,jdbcType=VARCHAR}, #{analysis,jdbcType=VARCHAR}, #{answer,jdbcType=VARCHAR}, #{courseID,jdbcType=INTEGER})
+    </insert>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select id, type, stem, options, analysis, answer, course_id
+        from question
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id, type, stem, options, analysis, answer, course_id
+        from question
+    </select>
+    <select id="selectByCourseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select id, type, stem, options, analysis, answer, course_id
+        from question
+        where course_id = #{courseID,jdbcType=INTEGER}
+    </select>
+</mapper>

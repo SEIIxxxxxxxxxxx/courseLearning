@@ -44,6 +44,10 @@ export default {
           link: `/teacher/user/${window.localStorage.getItem("userId")}`
         },
         {
+          optionName: "创建题目",
+          link: `/teacher/question/create`
+        },
+        {
           optionName: "登出",
           link: "/"
         }

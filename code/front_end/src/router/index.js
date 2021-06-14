@@ -11,6 +11,7 @@ import CourseList from "@/views/teacher/CourseList.vue";
 import CourseCreate from "@/views/teacher/CourseCreate.vue";
 import CourseEdit from "@/views/teacher/CourseEdit.vue";
 import TeacherCenter from "@/views/teacher/UserCenter.vue";
+import QuestionCreate from "@/views/teacher/QuestionCreate.vue";
 // student
 import StudentLayout from "@/layouts/studentLayout.vue";
 import StudentCourseList from "@/views/student/CourseList.vue";
@@ -103,6 +104,11 @@ const routes = [
         path: "edit/:courseId",
         name: "TeacherCourseEdit",
         component: CourseEdit
+      },
+      {
+        path: "question/create",
+        name: "QuestionCreate",
+        component: QuestionCreate
       }
     ]
   },

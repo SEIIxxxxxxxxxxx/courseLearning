@@ -7,3 +7,4 @@ export const FILE_MODULE = `${API_VERSION}/file`;
 export const USER_MODULE = `${API_VERSION}/user`;
 export const RECHARGE_MODULE = `${API_VERSION}/recharge`;
 export const COUPON_MODULE = `${API_VERSION}/coupon`;
+export const QUESTION_MODULE = `${API_VERSION}/question`;
