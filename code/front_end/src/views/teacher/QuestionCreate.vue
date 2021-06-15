@@ -45,6 +45,7 @@
           max="10"
           min="1"
           thumb-label
+          ticks
           @change="createOptions"
         ></v-slider>
         <ul
@@ -150,17 +151,17 @@ export default {
       this.options = ret;
     },
     formatOptions() {
-      for (let i = 0; i < this.option_num - 1; i++) {
+      for (let i = 0; i < this.option_num; i++) {
         this.questionInfo.str_option += this.options[i].option;
         this.questionInfo.str_option += "::";
         if (this.answers[i].isAnswer) {
-          if (this.questionInfo.answer !== "") {
-            this.questionInfo.answer += "::";
-          }
           this.questionInfo.answer += this.answers[i].id;
         }
       }
-      this.questionInfo.str_option += this.options[this.option_num - 1].option;
+      this.questionInfo.str_option = this.questionInfo.str_option.substr(
+        0,
+        this.questionInfo.str_option.length - 2
+      );
     },
     formatSingle() {
       this.questionInfo.answer = String.fromCharCode(
