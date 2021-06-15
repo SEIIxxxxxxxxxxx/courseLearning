@@ -158,9 +158,43 @@ CREATE TABLE `question`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of user_info
+-- Records of question
 -- ----------------------------
 INSERT INTO `question` VALUES (1, '单选题', '石大佬迟到了几次？', '2::3::4::5', '无', 'C', 1);
+INSERT INTO `question` VALUES (2, '多选题', '石大佬可能会迟到几次？', '6::7::8::9', '无', 'ABCD', 1);
+
+-- ----------------------------
+-- Table structure for exam
+-- ----------------------------
+DROP TABLE IF EXISTS `exam`;
+CREATE TABLE `exam` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `starting_time` datetime(0) NULL DEFAULT NULL,
+    `ending_time` datetime(0) NULL DEFAULT NULL,
+    `question_id_list` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+    `course_id` int(11) NOT NULL,
+    `teacher_id` int(11) NOT NULL,
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of exam
+-- ----------------------------
+INSERT INTO `exam` VALUES (1, now(), date_add(now(), interval 2 hour), '1::2', 1, 1);
+
+-- ----------------------------
+-- Table structure for user_exam
+-- ----------------------------
+DROP TABLE IF EXISTS `user_exam`;
+CREATE TABLE `user_exam`  (
+  `user_id` int(11) NOT NULL ,
+  `exam_id` int(11) NOT NULL,
+  `score` int(11) NOT NULL,
+  `true_answer` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `user_answer` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `true_or_false` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  PRIMARY KEY (`user_id`, `exam_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for user_info
