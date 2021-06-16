@@ -27,8 +27,9 @@
         <v-textarea
           v-model="questionInfo.stem"
           label="题干"
-          clearable="true"
-          counter="200"
+          clearable
+          :counter="200"
+          :rules="rules.AreaRules"
         ></v-textarea>
         <v-select
           :items="types"
@@ -58,7 +59,8 @@
             <v-text-field
               v-model="options[index].option"
               label="选项内容"
-              counter="50"
+              :counter="50"
+              :rules="rules.OptionRules"
             >
             </v-text-field>
           </li>
@@ -66,8 +68,8 @@
         <v-textarea
           v-model="questionInfo.analysis"
           label="解析"
-          counter="200"
-          clearable="true"
+          :counter="200"
+          clearable
         ></v-textarea>
         <div v-show="questionInfo.type === '单选题'">
           {{ "正确答案" }}
@@ -92,16 +94,18 @@
           </ul>
         </div>
         <v-textarea
-          v-show="questionInfo.type === '论述题'"
+          v-show="questionInfo.type === '问答题'"
           label="答案"
-          clearable="true"
-          counter="200"
+          v-model="questionInfo.answer"
+          clearable
+          :counter="200"
+          :rules="rules.AreaRules"
         ></v-textarea>
         <v-text-field
           v-model="questionInfo.courseID"
           label="所属课程ID"
         ></v-text-field>
-        <v-btn class="ml-0 mt-8 info" @click="submit">
+        <v-btn class="ml-0 mt-8 info" v-show="checkSubmit()" @click="submit">
           确认
         </v-btn>
       </form>
@@ -129,10 +133,20 @@ export default {
       option_num: 4,
       options: [],
       answers: [],
-      types: ["单选题", "多选题", "论述题"],
+      types: ["单选题", "多选题", "问答题"],
       dialog: false,
       showSuccessDialog: false,
       showFailDialog: false,
+      rules: {
+        AreaRules: [
+          v => !!v || "提示: 不能为空",
+          v => v.length <= 200 || "提示: 输入超过字数限制"
+        ],
+        OptionRules: [
+          v => !!v || "提示: 不能为空",
+          v => v.length <= 50 || "提示: 输入超过字数限制"
+        ]
+      },
       msg: ""
     };
   },
@@ -142,6 +156,34 @@ export default {
   },
 
   methods: {
+    checkSubmit() {
+      if (this.questionInfo.stem === "") {
+        return false;
+      }
+      for (let i = 0; i < this.option_num; i++) {
+        if (this.options[i].option === "") {
+          return false;
+        }
+      }
+      if (this.questionInfo.type !== "多选题") {
+        if (this.questionInfo.answer === "") {
+          return false;
+        }
+      } else {
+        let r = false;
+        for (let i = 0; i < this.option_num; i++) {
+          if (this.answers[i].isAnswer) {
+            if (r) {
+              return true;
+            } else {
+              r = true;
+            }
+          }
+        }
+        return false;
+      }
+      return true;
+    },
     createOptions() {
       let ret = [];
       for (let i = 0; i < this.option_num; i++) {
@@ -169,7 +211,9 @@ export default {
       );
     },
     submit() {
-      this.formatOptions();
+      if (this.questionInfo.type !== "问答题") {
+        this.formatOptions();
+      }
       if (this.questionInfo.type === "单选题") {
         this.formatSingle();
       }
