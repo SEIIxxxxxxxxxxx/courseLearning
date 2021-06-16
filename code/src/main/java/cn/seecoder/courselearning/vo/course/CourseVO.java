@@ -75,7 +75,7 @@ public class CourseVO {
         teacherId = course.getTeacherId();
         teacherName = course.getTeacherName();
         likes = course.getLikes();
-//        TODO 修改了liked的判断
+
         this.liked = likes != null && likes > 0 && liked;
         this.bought = bought;
         this.manageable = manageable;

@@ -16,15 +16,18 @@ public class UserExamServiceImpl implements UserExamService {
     @Resource
     private UserExamMapper userExamMapper;
 
-    @Override
-    public ResultVO<UserExamVO> createUserExam(UserExamVO userExamVO) {
-        UserExam userExam = new UserExam(userExamVO);
-        System.out.println(userExam);
-        if (userExamMapper.insert(userExam) > 0) {
-            return new ResultVO<>(Constant.REQUEST_SUCCESS, "题目创建成功", userExamVO);
-        }
-        return new ResultVO<>(Constant.REQUEST_FAIL, "服务器错误");
-    }
+    //感觉测试提交就是创建用户测试
+//    @Override
+//    public ResultVO<UserExamVO> createUserExam(UserExamVO userExamVO) {
+//        UserExam userExam = new UserExam(userExamVO);
+//        System.out.println(userExam);
+//        if (userExamMapper.insert(userExam) > 0) {
+//            return new ResultVO<>(Constant.REQUEST_SUCCESS, "题目创建成功", userExamVO);
+//        }
+//        return new ResultVO<>(Constant.REQUEST_FAIL, "服务器错误");
+//    }
+
+    // TODO 在 setUp里面实现和正确答案比较计算分数（应该只能算出选择题的分数），并实现到 UserExamMapper的映射
 
     @Override
     public ResultVO<UserExamVO> setUpExam(UserExamVO userExamVO) {
@@ -32,7 +35,7 @@ public class UserExamServiceImpl implements UserExamService {
         List<String> trueAnswer = userExamVO.splitTrueAnswers(userExamVO.getTrueAnswer());
         StringBuilder ret = new StringBuilder();
         for (int i = 0; i < userAnswer.size(); i++) {
-            if (userAnswer.get(i) == trueAnswer.get(i)) {
+            if (userAnswer.get(i).equals(trueAnswer.get(i))) {
                 ret.append("1");
             }
             ret.append("0");

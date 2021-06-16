@@ -65,7 +65,6 @@ public class CourseOrderServiceImpl implements CourseOrderService {
         if((orderStatus.equals(Constant.ORDER_STATUS_SUCCESS)||orderStatus.equals(Constant.ORDER_STATUS_WAIT)) &&
                 order.getStatus().equals(Constant.ORDER_STATUS_UNPAID)){
             // 当订单原始状态为待支付 并且此时为支付成功时，需扣除用户余额
-            // TODO 先前似乎已经扣过了，这里就不扣了
             UserVO user = userService.getUser(order.getUserId());
             if(user.getBalance()>=order.getCost()){
                 //userService.decreaseBalance(user.getId(), order.getCost());

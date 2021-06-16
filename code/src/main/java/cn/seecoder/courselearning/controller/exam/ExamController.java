@@ -25,6 +25,7 @@ public class ExamController {
         return examService.createExam(exam);
     }
 
+
     /**
      * 根据课程id查找对应测试
      *  @param cid 课程id
@@ -43,12 +44,22 @@ public class ExamController {
     }
 
     /**
-     * 作答测试
+     * 返回对应测试号的测试
      */
-    @PostMapping("/answer")
-    public ResultVO<ExamVO> answerExam(@RequestBody ExamVO exam){
-        return examService.answerExam(exam);
+    @GetMapping("getExamById")
+    public ExamVO getExamById(@RequestParam Integer eid){
+        return examService.getExamById(eid);
     }
+
+
+
+//    /**
+//     * 作答测试
+//     */
+//    @PostMapping("/answer")
+//    public ResultVO<ExamVO> answerExam(@RequestBody ExamVO exam){
+//        return examService.answerExam(exam);
+//    }
 
     /**
      * 提交测试
@@ -58,4 +69,19 @@ public class ExamController {
         return userExamService.setUpExam(userExam);
     }
 
+    /**
+     * 得到进行中测试
+     */
+    @GetMapping("/getContinueExam")
+    public ResultVO<ExamVO> getContinueExam(@RequestParam Integer courseId){
+        return examService.getContinueExam(courseId);
+    }
+
+    /**
+     * 得到已结束测试
+     */
+    @GetMapping("/getOverExam")
+    public ResultVO<ExamVO> getOverExam(@RequestParam Integer courseId){
+        return examService.getOverExam(courseId);
+    }
 }

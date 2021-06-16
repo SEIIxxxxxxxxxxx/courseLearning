@@ -51,8 +51,27 @@ public class ExamServiceImpl implements ExamService {
         return ret;
     }
 
+
+    @Override
+    public ExamVO getExamById(Integer eid) {
+        return new ExamVO(examMapper.selectByPrimaryKey(eid));
+    }
+
     @Override
     public ResultVO<ExamVO> answerExam(ExamVO examVO) {
+        return null;
+    }
+
+
+    // TODO  获取进行中和已结束测试，即实现下面两个方法
+
+    @Override
+    public ResultVO<ExamVO> getContinueExam(Integer courseId) {
+        return null;
+    }
+
+    @Override
+    public ResultVO<ExamVO> getOverExam(Integer courseId) {
         return null;
     }
 }

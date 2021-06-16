@@ -482,11 +482,11 @@ export default {
     setLikeOrDislike(courseId) {
       const uid = window.localStorage.getItem("userId");
       // 通过一个接口来获取该用户对当前课程的点赞情况，根据结果进入不同的分支
-      // TODO Add your code here
+
       getCourseById({ courseId, uid }).then(res => {
         if (res.liked) {
           // 分支2：若当前用户已经为该课程点过赞了，则调用取消点赞接口完成相关操作，可以仿照分支1的示例进行
-          // TODO Add your code here
+
           setCourseDislike(uid, courseId).then(res => {
             if (res.code === 1) {
               this.snackBarMsg = res.msg;

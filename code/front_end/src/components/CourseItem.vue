@@ -30,6 +30,9 @@
         @click="buyCourse"
         >{{ cost === 0 ? "免费购买" : "购买课程" }}</v-btn
       >
+      <v-btn text v-show="status === -1 || !hasLogin" @click="handleExamPeek"
+        >查看已发布测试</v-btn
+      >
     </v-card-actions>
     <v-row justify="end" class="pr-5">
       <v-btn
@@ -122,6 +125,9 @@ export default Vue.extend({
     },
     handlePeek() {
       this.$router.push(`/student/peek/${this.courseId}`);
+    },
+    handleExamPeek(){
+      this.$router.push(`/student/examPeek/${this.courseId}`);
     },
     handleLike() {
       this.$emit("set-like", this.courseId);

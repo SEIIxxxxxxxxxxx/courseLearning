@@ -24,17 +24,17 @@ public class QuestionController {
 
     /**
      * 根据课程id查找对应题目
-     *  @param cid 课程id
+     *  @param courseId 课程id
      */
-    @PostMapping("/cid/{cid}")
-    public List<QuestionVO> getCourseQuestion(@PathVariable Integer cid){
-        return questionService.getQuestion(cid);
+    @GetMapping("/getByCourseId")
+    public List<QuestionVO> getCourseQuestion(@RequestParam Integer courseId){
+        return questionService.getQuestion(courseId);
     }
 
     /**
      * 返回题库中全部题目
      */
-    @PostMapping("/all")
+    @GetMapping("/all")
     public List<QuestionVO> getQuestion(){
         return questionService.getAllQuestion();
     }

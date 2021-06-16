@@ -48,6 +48,10 @@ export default {
           link: `/teacher/question/create`
         },
         {
+          optionName: "创建测试",
+          link: `/teacher/exam/create`
+        },
+        {
           optionName: "登出",
           link: "/"
         }

@@ -12,6 +12,8 @@ import CourseCreate from "@/views/teacher/CourseCreate.vue";
 import CourseEdit from "@/views/teacher/CourseEdit.vue";
 import TeacherCenter from "@/views/teacher/UserCenter.vue";
 import QuestionCreate from "@/views/teacher/QuestionCreate.vue";
+import ExamCreate from "@/views/teacher/ExamCreate.vue";
+
 // student
 import StudentLayout from "@/layouts/studentLayout.vue";
 import StudentCourseList from "@/views/student/CourseList.vue";
@@ -19,6 +21,9 @@ import UserCenter from "@/views/student/UserCenter.vue";
 import HistoryOrder from "@/views/student/HistoryOrder.vue";
 import CourseStudy from "@/views/student/CourseStudy.vue";
 import CoursePeek from "@/views/student/CoursePeek.vue";
+import ExamPeek from "@/views/student/ExamPeek.vue";
+import TakeExam from "@/views/student/TakeExam.vue";
+import PeekResult from "@/views/student/PeekResult.vue";
 // default
 import DefaultLayout from "@/layouts/defaultLayout.vue";
 import Login from "@/views/Login.vue";
@@ -109,6 +114,11 @@ const routes = [
         path: "question/create",
         name: "QuestionCreate",
         component: QuestionCreate
+      },
+      {
+        path: "exam/create",
+        name: "ExamCreate",
+        component: ExamCreate
       }
     ]
   },
@@ -141,6 +151,21 @@ const routes = [
         path: "peek/:courseId",
         name: "CoursePeek",
         component: CoursePeek
+      },
+      {
+        path: "examPeek/:courseId",
+        name: "ExamPeek",
+        component: ExamPeek
+      },
+      {
+        path: "takeExam/:examId",
+        name: "TakeExam",
+        component: TakeExam
+      },
+      {
+        path: "peekResult/:examId",
+        name: "PeekResult",
+        component: PeekResult
       }
     ]
   }

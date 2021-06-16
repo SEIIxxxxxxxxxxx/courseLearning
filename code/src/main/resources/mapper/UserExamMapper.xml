@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.seecoder.courselearning.mapperservice.exam.UserExamMapper">
+    <resultMap id="BaseResultMap" type="cn.seecoder.courselearning.po.exam.UserExam">
+        <id column="user_id" jdbcType="INTEGER" property="userId" />
+        <result column="exam_id" jdbcType="INTEGER" property="examId" />
+        <result column="score" jdbcType="INTEGER" property="score" />
+        <result column="true_answer" jdbcType="VARCHAR" property="trueAnswer" />
+        <result column="user_answer" jdbcType="VARCHAR" property="userAnswer" />
+        <result column="true_or_false" jdbcType="VARCHAR" property="trueOrFalse" />
+    </resultMap>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from user_exam
+        where user_id = #{user_id,jdbcType=INTEGER} and exam_id = #{exam_id,jdbcType=INTEGER}
+    </delete>
+
+    <insert id="insert" parameterType="cn.seecoder.courselearning.po.exam.Exam" useGeneratedKeys="true" keyProperty="id">
+        insert into user_exam (user_id, exam_id, score, true_answer, user_answer, true_or_false)
+        values (#{user_id,jdbcType=INTEGER}, #{exam_id,jdbcType=INTEGER}, #{score,jdbcType=INTEGER}, #{true_answer,jdbcType=VARCHAR}, #{user_answer,jdbcType=VARCHAR}, #{true_or_false,jdbcType=VARCHAR})
+    </insert>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select user_id, exam_id, score, true_answer, user_answer, true_or_false
+        from user_exam
+        where user_id = #{user_id,jdbcType=INTEGER} and exam_id = #{exam_id,jdbcType=INTEGER}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select user_id, exam_id, score, true_answer, user_answer, true_or_false
+        from user_exam
+    </select>
+
+</mapper>

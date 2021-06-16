@@ -104,32 +104,26 @@ public class CourseServiceImpl implements CourseService {
         }
         Course course = new Course(courseVO);
         if(courseMapper.insert(course) > 0){
-            return new ResultVO<CourseVO>(Constant.REQUEST_SUCCESS, "课程创建成功。", new CourseVO(course, false, true, false));
+            return new ResultVO<>(Constant.REQUEST_SUCCESS, "课程创建成功。", new CourseVO(course, false, true, false));
         }
         return new ResultVO<>(Constant.REQUEST_FAIL, "服务器错误");
     }
 
-//    TODO 实现了点赞功能的具体实现
+
     @Override
     public ResultVO<CourseVO> setCourseLike(Integer courseId, Integer uid){
-        if(courseLikesMapper.count(courseId, uid)!=0){
-            return new ResultVO<>(Constant.REQUEST_SUCCESS, "点赞成功！", this.getCourse(courseId, uid));
-        }
-        else{
+        if (courseLikesMapper.count(courseId, uid) == 0) {
             courseLikesMapper.insert(courseId, uid);
-            return new ResultVO<>(Constant.REQUEST_SUCCESS, "点赞成功！", this.getCourse(courseId, uid));
         }
+        return new ResultVO<>(Constant.REQUEST_SUCCESS, "点赞成功！", this.getCourse(courseId, uid));
     }
 
     @Override
     public ResultVO<CourseVO> cancelCourseLike(Integer courseId, Integer uid){
-        if(courseLikesMapper.count(courseId, uid)==0){
-            return new ResultVO<>(Constant.REQUEST_SUCCESS, "取消点赞成功！", this.getCourse(courseId, uid));
-        }
-        else{
+        if (courseLikesMapper.count(courseId, uid) != 0) {
             courseLikesMapper.deleteByPrimaryKey(courseId, uid);
-            return new ResultVO<>(Constant.REQUEST_SUCCESS, "取消点赞成功！", this.getCourse(courseId, uid));
         }
+        return new ResultVO<>(Constant.REQUEST_SUCCESS, "取消点赞成功！", this.getCourse(courseId, uid));
     }
 
 
@@ -147,7 +141,7 @@ public class CourseServiceImpl implements CourseService {
                 if(order != null)
                     vo.setBought(order.getStatus().equals(Constant.ORDER_STATUS_SUCCESS));
                 vo.setManageable(uid.equals(vo.getTeacherId()));
-//                TODO 根据coursevo相应修改了获取课程列表的相关方法
+
                 vo.setLiked(courseLikesMapper.count(vo.getId(), uid) > 0);
                 vo.setLikes(courseLikesMapper.countLikesOfCourse(vo.getId()));
             }

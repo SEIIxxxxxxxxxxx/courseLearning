@@ -23,7 +23,7 @@ public interface CourseService {
     CourseVO getCourse(Integer courseId, Integer uid);
     // 创建课程
     ResultVO<CourseVO> createCourse(CourseVO courseVO);
-//    TODO 完善了接口的定义
+
     // 点赞课程
     ResultVO<CourseVO> setCourseLike(Integer courseId, Integer uid);
     // 取消点赞课程
