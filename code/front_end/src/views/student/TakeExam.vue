@@ -38,8 +38,8 @@
 </template>
 
 <script>
-import { getExamById } from "@api/exam";
-import { createUserExam } from "@/api/exam";
+import { getExamById } from "../../api/exam";
+import {createUserExam} from "../../api/exam";
 
 export default {
   name: "TakeExam",
