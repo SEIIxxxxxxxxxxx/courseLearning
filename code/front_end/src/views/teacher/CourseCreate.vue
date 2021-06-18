@@ -77,6 +77,7 @@ import { createCourse } from "@/api/course";
 
 export default {
   name: "CourseCreate",
+  inject: ["reload"],
 
   data() {
     return {
@@ -115,7 +116,7 @@ export default {
         if (res.code === 1) {
           this.showSuccessDialog = true;
           setTimeout(() => {
-            this.showSuccessDialog = false;
+            this.reload();
           }, 1000);
         } else {
           this.showFailDialog = true;

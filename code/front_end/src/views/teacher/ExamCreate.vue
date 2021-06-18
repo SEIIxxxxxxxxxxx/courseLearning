@@ -28,6 +28,17 @@
       outlined
       type="warning"
       text
+      v-show="showReDialog"
+      transition="scroll-y-transition"
+    >
+      该课程下没有相应题目！
+    </v-alert>
+    <!-- alert -->
+    <v-alert
+      class="alert"
+      outlined
+      type="warning"
+      text
       v-show="showCheckDialog"
       transition="scroll-y-transition"
     >
@@ -35,8 +46,6 @@
     </v-alert>
     <v-container class="pl-16 pr-16">
       <form class="pa-12 grey lighten-5 mt-8">
-
-
         <v-text-field
           v-model="examInfo.courseId"
           label="课程编号"
@@ -46,15 +55,15 @@
           查询可选题目
         </v-btn>
 
-        <div>
-          {{"可选题目："}}
+        <div v-if="questionToBeChosen.length !== 0">
+          {{ "可选题目：" }}
           <ul>
-            <li v-for="c in questionToBeChosen" :key="c.id">
+            <li v-for="(c, index) in questionToBeChosen" :key="c.id">
               <v-checkbox
                 :label="`${c.id} ： ${c.stem}`"
-                v-model="questionIdMap"
+                v-model="questionIdMap[index].isSelected"
                 color="success"
-                ></v-checkbox>
+              ></v-checkbox>
             </li>
           </ul>
         </div>
@@ -73,7 +82,6 @@
         <v-btn class="ml-0 mt-8 info" @click="submit">
           确认
         </v-btn>
-
       </form>
     </v-container>
   </div>
@@ -96,22 +104,24 @@ export default {
         teacherId: window.localStorage.getItem("userId")
       },
 
-      questionToBeChosen :[],
-      questionIdMap : [],
+      questionToBeChosen: [],
+      questionIdMap: [],
 
       showSuccessDialog: false,
       showFailDialog: false,
       showCheckDialog: false,
-      msg: "",
-
+      showReDialog: false,
+      msg: ""
     };
   },
 
   methods: {
-    formatQuestionList(){
-      for(let i=0;i<this.questionIdMap.length;i++){
-        this.examInfo.questionIdList += this.questionIdMap[i];
-        this.examInfo.questionIdList += "::";
+    formatQuestionList() {
+      for (let i = 0; i < this.questionIdMap.length; i++) {
+        if (this.questionIdMap[i].isSelected) {
+          this.examInfo.questionIdList += this.questionIdMap[i].qid;
+          this.examInfo.questionIdList += "::";
+        }
       }
       this.examInfo.questionIdList = this.examInfo.questionIdList.substr(
         0,
@@ -119,10 +129,26 @@ export default {
       );
     },
 
-    searchQuestions(){
-      let id = this.data().examInfo.courseId;
+    prepareQuestionList() {
+      console.log(this.questionToBeChosen);
+      if (this.questionToBeChosen.length === 0) {
+        this.showReDialog = true;
+        setTimeout(() => {
+          this.showReDialog = false;
+        }, 1000);
+      } else {
+        console.log(this.questionIdMap);
+        for (let i = 0; i < this.questionToBeChosen.length; i++) {
+          this.questionIdMap.push({ qid: i + 1, isSelected: false });
+        }
+      }
+    },
+
+    searchQuestions() {
+      let id = this.examInfo.courseId;
       getAvailableQuestionsForCourseId(id).then(res => {
         this.questionToBeChosen = res || [];
+        this.prepareQuestionList();
       });
     },
 

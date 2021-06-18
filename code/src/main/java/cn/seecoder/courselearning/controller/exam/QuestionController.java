@@ -26,9 +26,9 @@ public class QuestionController {
      * 根据课程id查找对应题目
      *  @param courseId 课程id
      */
-    @GetMapping("/getByCourseId")
-    public List<QuestionVO> getCourseQuestion(@RequestParam Integer courseId){
-        return questionService.getQuestion(courseId);
+    @GetMapping("/getByCourseId/{courseId}")
+    public List<QuestionVO> getCourseQuestion(@PathVariable String courseId){
+        return questionService.getQuestion(Integer.parseInt(courseId));
     }
 
     /**

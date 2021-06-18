@@ -72,13 +72,9 @@ export const getExamById = examId => {
  */
 
 export const getAvailableQuestionsForCourseId = courseId => {
-  return axios
-    .get(`${QUESTION_MODULE}/getByCourseId`, {
-      params: {
-        courseId
-      }
-    })
-    .then(res => res.data);
+  return axios.get(`${QUESTION_MODULE}/getByCourseId/${courseId}`).then(res => {
+    return res.data;
+  });
 };
 
 /**
