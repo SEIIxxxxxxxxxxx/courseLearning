@@ -9,3 +9,4 @@ export const RECHARGE_MODULE = `${API_VERSION}/recharge`;
 export const COUPON_MODULE = `${API_VERSION}/coupon`;
 export const QUESTION_MODULE = `${API_VERSION}/question`;
 export const EXAM_MODULE = `${API_VERSION}/exam`;
+export const VIP_MODULE = `${API_VERSION}/VIP`;

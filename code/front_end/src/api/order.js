@@ -1,10 +1,11 @@
 import axios from "axios";
-import { ORDER_MODULE } from "./_prefix";
+import { ORDER_MODULE, VIP_MODULE } from "./_prefix";
 
 /**
  * 生成课程订单（可用于购买课程或赠送课程） POST course_order/create
- * @param {*}
  * @returns
+ * @param uid
+ * @param courseId
  */
 export const createOrder = (uid, courseId) => {
   return axios
@@ -40,6 +41,7 @@ export const getOrdersByUser = uid => {
     return res.data;
   });
 };
+
 /**
  * 获取某一订单信息
  * @param orderId
@@ -77,4 +79,29 @@ export const cancelCoupon = (order, couponId) => {
 
 export const payOrder = orderId => {
   return axios.post(`${ORDER_MODULE}/pay/${orderId}`).then(res => res.data);
+};
+
+/**
+ * 生成会员订单（可用于购买会员） POST VIP/create
+ * @param uid
+ * @param type
+ * @returns
+ */
+export const createVipOrder = (uid, type) => {
+  return axios
+    .post(`${VIP_MODULE}/create?uid=${uid}&type=${type}`)
+    .then(res => {
+      return res.data;
+    });
+};
+
+/**
+ * 获取用户会员到期时间
+ * @returns {Promise<*>}
+ * @param userId
+ */
+export const getVipEndTime = userId => {
+  return axios.get(`${VIP_MODULE}/getEndTime/${userId}`).then(res => {
+    return res.data;
+  });
 };

@@ -38,6 +38,36 @@
       </v-dialog>
     </template>
 
+    <template>
+      <v-dialog v-model="dialog2" max-width="400">
+        <v-card>
+          <v-card-title class="headline">
+            购买会员
+          </v-card-title>
+          <v-col class="d-flex" cols="12" sm="6">
+            <v-select
+              :items="items"
+              label="选择类型"
+              dense
+              solo
+              v-model="type"
+            ></v-select>
+          </v-col>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+
+            <v-btn color="green darken-1" text @click="handleVip">
+              确认购买
+            </v-btn>
+
+            <v-btn color="green darken-1" text @click="dialog2 = false">
+              取消购买
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </template>
+
     <v-container class="pl-16 pr-16">
       <form class="pa-12 grey lighten-5 mt-8">
         <v-text-field v-model="userInfo.id" label="ID" readonly></v-text-field>
@@ -66,9 +96,34 @@
           label="账户余额"
           readonly
         ></v-text-field>
-        <v-btn color="primary" dark @click.stop="dialog = true">
-          充值
-        </v-btn>
+        <div>
+          <v-btn color="primary" dark @click.stop="dialog = true">
+            充值
+          </v-btn>
+        </div>
+        <v-text-field
+          v-if="endTime === ''"
+          label="用户级别"
+          v-model="normal"
+          readonly
+        ></v-text-field>
+        <v-text-field
+          v-if="endTime !== ''"
+          label="用户级别"
+          v-model="vip"
+          readonly
+        ></v-text-field>
+        <div>
+          <v-btn color="primary" dark @click.stop="dialog2 = true">
+            购买会员
+          </v-btn>
+        </div>
+        <v-text-field
+          v-if="endTime !== ''"
+          v-model="endTime"
+          label="会员到期时间"
+          readonly
+        ></v-text-field>
       </form>
     </v-container>
   </div>
@@ -77,6 +132,7 @@
 <script>
 import { getUser } from "@/api/user";
 import { recharge } from "@/api/recharge";
+import { createVipOrder, getVipEndTime } from "@/api/order";
 
 export default {
   name: "UserCenter",
@@ -94,8 +150,14 @@ export default {
         createTime: ""
       },
       dialog: false,
+      dialog2: false,
       showAlert: false,
+      normal: "普通用户",
+      vip: "会员",
       value: 0,
+      type: null,
+      items: ["日卡：￥5", "月卡：￥20", "年卡：￥180"],
+      endTime: "",
       msg: ""
     };
   },
@@ -116,10 +178,43 @@ export default {
       });
     },
 
+    getVipEndTime() {
+      const userId = window.localStorage.getItem("userId");
+      getVipEndTime(userId).then(res => {
+        this.endTime = res || "";
+      });
+    },
+
+    convertType() {
+      for (let i = 0; i < this.items.length; i++) {
+        if (this.items[i] === this.type) {
+          this.type = i + 1;
+        }
+      }
+    },
+
+    handleVip() {
+      this.convertType();
+      console.log(this.type);
+      createVipOrder(this.userInfo.id, this.type).then(res => {
+        console.log(res);
+        if (res && res.code === 1) {
+          this.msg = res.msg;
+          this.dialog = false;
+          this.showAlert = true;
+          this.refreshUserInfo();
+          setTimeout(() => {
+            this.showAlert = false;
+          }, 1000);
+        }
+      });
+    },
+
     refreshUserInfo() {
       const userId = window.localStorage.getItem("userId");
       getUser(userId).then(res => {
         this.userInfo = res || {};
+        this.getVipEndTime();
       });
     }
   },
