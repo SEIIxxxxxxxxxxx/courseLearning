@@ -197,6 +197,23 @@ CREATE TABLE `user_exam`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Table structure for vip_order
+-- ----------------------------
+DROP TABLE IF EXISTS `vip_order`;
+CREATE TABLE `vip_order`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL ,
+  `date_type` int(11) NOT NULL ,
+  `ending_time` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of vip_order
+-- ----------------------------
+INSERT INTO `vip_order` VALUES (1, 2, 1, date_add(now(), interval 1 hour));
+
+-- ----------------------------
 -- Table structure for user_info
 -- ----------------------------
 DROP TABLE IF EXISTS `user_info`;

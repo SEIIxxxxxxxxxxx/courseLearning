@@ -11,6 +11,17 @@
     >
       {{ msg }}
     </v-alert>
+    <!-- alert -->
+    <v-alert
+      class="alert"
+      outlined
+      type="warning"
+      text
+      v-show="showFailDialog"
+      transition="scroll-y-transition"
+    >
+      {{ msg }}
+    </v-alert>
     <template>
       <v-dialog v-model="dialog" max-width="400">
         <v-card>
@@ -152,8 +163,9 @@ export default {
       dialog: false,
       dialog2: false,
       showAlert: false,
+      showFailDialog: false,
       normal: "普通用户",
-      vip: "会员",
+      vip: "尊贵会员",
       value: 0,
       type: null,
       items: ["日卡：￥5", "月卡：￥20", "年卡：￥180"],
@@ -200,11 +212,18 @@ export default {
         console.log(res);
         if (res && res.code === 1) {
           this.msg = res.msg;
-          this.dialog = false;
+          this.dialog2 = false;
           this.showAlert = true;
           this.refreshUserInfo();
           setTimeout(() => {
             this.showAlert = false;
+          }, 1000);
+        } else {
+          this.msg = res.msg;
+          this.dialog2 = false;
+          this.showFailDialog = true;
+          setTimeout(() => {
+            this.showFailDialog = false;
           }, 1000);
         }
       });

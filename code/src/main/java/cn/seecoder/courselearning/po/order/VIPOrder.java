@@ -36,6 +36,10 @@ public class VIPOrder {
 
     public void setEndTime(Date endTime) { this.endTime = endTime; }
 
+    public VIPOrder(){
+
+    }
+
     public VIPOrder(VIPOrderVO vipOrderVO){
         this.id = vipOrderVO.getId();
         this.type = vipOrderVO.getType();

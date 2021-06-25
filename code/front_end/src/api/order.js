@@ -102,6 +102,6 @@ export const createVipOrder = (uid, type) => {
  */
 export const getVipEndTime = userId => {
   return axios.get(`${VIP_MODULE}/getEndTime/${userId}`).then(res => {
-    return res.data;
+    return res.data.data;
   });
 };
