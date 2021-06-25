@@ -61,4 +61,16 @@ public class VIPOrderServiceImpl implements VIPOrderService {
             return new ResultVO<>(Constant.REQUEST_FAIL, "用户余额不足");
         }
     }
+
+    @Override
+    public Boolean isVip(Integer uid) {
+        List<VIPOrder> data = vipOrderMapper.selectByUserId(uid);
+        Date cur = new Date();
+        for (VIPOrder datum : data) {
+            if (datum.getEndTime().compareTo(cur) > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
