@@ -3,8 +3,8 @@
 <mapper namespace="cn.seecoder.courselearning.mapperservice.exam.ExamMapper">
     <resultMap id="BaseResultMap" type="cn.seecoder.courselearning.po.exam.Exam">
         <id column="id" jdbcType="INTEGER" property="id" />
-        <result column="starting_time" jdbcType="TIMESTAMP" property="startTime" />
-        <result column="ending_time" jdbcType="TIMESTAMP" property="endTime" />
+        <result column="starting_time" jdbcType="TIMESTAMP" property="startingTime" />
+        <result column="ending_time" jdbcType="TIMESTAMP" property="endingTime" />
         <result column="question_id_list" jdbcType="VARCHAR" property="questionIdList" />
         <result column="course_id" jdbcType="INTEGER" property="courseId" />
         <result column="teacher_id" jdbcType="INTEGER" property="teacherId" />
@@ -15,7 +15,7 @@
     </delete>
     <insert id="insert" parameterType="cn.seecoder.courselearning.po.exam.Exam" useGeneratedKeys="true" keyProperty="id">
         insert into exam (id,starting_time, ending_time, question_id_list, course_id, teacher_id)
-        values (#{id,jdbcType=INTEGER}, #{starting_time,jdbcType=TIMESTAMP}, #{ending_time,jdbcType=TIMESTAMP}, #{question_id_list,jdbcType=VARCHAR}, #{course_id,jdbcType=INTEGER}, #{teacher_id,jdbcType=INTEGER})
+        values (#{id,jdbcType=INTEGER}, #{startingTime,jdbcType=TIMESTAMP}, #{endingTime,jdbcType=TIMESTAMP}, #{questionIdList,jdbcType=VARCHAR}, #{courseId,jdbcType=INTEGER}, #{teacherId,jdbcType=INTEGER})
     </insert>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select id,starting_time, ending_time, question_id_list, course_id, teacher_id
@@ -26,8 +26,6 @@
         select id,starting_time, ending_time, question_id_list, course_id, teacher_id
         from exam
     </select>
-
-
 
     <select id="selectByCourseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select id,starting_time, ending_time, question_id_list, course_id, teacher_id

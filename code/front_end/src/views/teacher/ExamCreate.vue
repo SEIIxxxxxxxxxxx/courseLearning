@@ -56,7 +56,6 @@
         </v-btn>
 
         <div v-if="questionToBeChosen.length !== 0">
-          {{ "可选题目：" }}
           <ul>
             <li v-for="(c, index) in questionToBeChosen" :key="c.id">
               <v-checkbox
@@ -69,12 +68,12 @@
         </div>
 
         <v-text-field
-          v-model="examInfo.startTime"
+          v-model="examInfo.startingTime"
           label="开始时间"
           messages="YYYY-MM-DD HH:MM:SS"
         ></v-text-field>
         <v-text-field
-          v-model="examInfo.endTime"
+          v-model="examInfo.endingTime"
           label="结束时间"
           messages="YYYY-MM-DD HH:MM:SS"
         ></v-text-field>
@@ -97,8 +96,8 @@ export default {
   data() {
     return {
       examInfo: {
-        startTime: "",
-        endTime: "",
+        startingTime: "",
+        endingTime: "",
         questionIdList: "",
         courseId: 0,
         teacherId: window.localStorage.getItem("userId")
@@ -156,22 +155,22 @@ export default {
       this.formatQuestionList();
 
       const e = {
-        startTime: this.examInfo.startTime,
-        endTime: this.examInfo.endTime,
+        startingTime: this.examInfo.startingTime,
+        endingTime: this.examInfo.endingTime,
         questionIdList: this.examInfo.questionIdList,
         courseId: this.examInfo.courseId,
         teacherId: this.examInfo.teacherId
       };
       console.log(e);
 
-      if (!this.examInfo.startTime) {
+      if (!this.examInfo.startingTime) {
         this.showCheckDialog = true;
         setTimeout(() => {
           this.showCheckDialog = false;
         }, 1000);
         return false;
       }
-      if (!this.examInfo.endTime) {
+      if (!this.examInfo.endingTime) {
         this.showCheckDialog = true;
         setTimeout(() => {
           this.showCheckDialog = false;
@@ -180,8 +179,8 @@ export default {
       }
       if (
         !(
-          this.check(this.examInfo.startTime) &&
-          this.check(this.examInfo.endTime)
+          this.check(this.examInfo.startingTime) &&
+          this.check(this.examInfo.endingTime)
         )
       ) {
         this.showCheckDialog = true;
