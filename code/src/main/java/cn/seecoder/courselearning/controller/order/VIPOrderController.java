@@ -24,7 +24,7 @@ public class VIPOrderController {
     /**
      * 获取会员到期时间
      */
-    //TODO: 如果会员已过期或无会员充值信息则返回空字符串
+    // 如果会员已过期或无会员充值信息则返回空字符串
     @GetMapping("/getEndTime/{userId}")
     public ResultVO<String> getVipEndTime(@PathVariable Integer userId){
         return vipOrderService.getVipEndTime(userId);

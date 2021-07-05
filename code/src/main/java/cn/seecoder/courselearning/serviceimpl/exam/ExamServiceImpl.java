@@ -11,7 +11,9 @@ import cn.seecoder.courselearning.vo.exam.UserExamVO;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -21,6 +23,7 @@ public class ExamServiceImpl implements ExamService {
 
     @Override
     public ResultVO<ExamVO> createExam(ExamVO examVO){
+        System.out.println(examVO);
         Exam exam = new Exam(examVO);
         System.out.println(exam);
         if(examMapper.insert(exam) > 0){
@@ -62,16 +65,27 @@ public class ExamServiceImpl implements ExamService {
         return null;
     }
 
-
-    // TODO  获取进行中和已结束测试，即实现下面两个方法
-
     @Override
-    public ResultVO<ExamVO> getContinueExam(Integer courseId) {
-        return null;
+    public List<ExamVO> getContinueExam(Integer courseId) {
+        List<ExamVO> ret = new ArrayList<>();
+        List<Exam> exams = examMapper.selectAll();
+        for(Exam exam: exams){
+            if(exam.getCourseId().equals(courseId) && exam.getEndingTime().isAfter(LocalDateTime.now()) && exam.getStartingTime().isBefore(LocalDateTime.now())){
+                ret.add(new ExamVO(exam));
+            }
+        }
+        return ret;
     }
 
     @Override
-    public ResultVO<ExamVO> getOverExam(Integer courseId) {
-        return null;
+    public List<ExamVO> getOverExam(Integer courseId) {
+        List<ExamVO> ret = new ArrayList<>();
+        List<Exam> exams = examMapper.selectAll();
+        for(Exam exam: exams){
+            if(exam.getCourseId().equals(courseId) && exam.getEndingTime().isBefore(LocalDateTime.now())){
+                ret.add(new ExamVO(exam));
+            }
+        }
+        return ret;
     }
 }

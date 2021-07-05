@@ -18,7 +18,7 @@ public interface ExamService {
     //作答测试
     ResultVO<ExamVO> answerExam(ExamVO examVO);
     //获取进行中测试
-    ResultVO<ExamVO> getContinueExam(Integer courseId);
+    List<ExamVO> getContinueExam(Integer courseId);
     //获取已结束测试
-    ResultVO<ExamVO> getOverExam(Integer courseId);
+    List<ExamVO> getOverExam(Integer courseId);
 }

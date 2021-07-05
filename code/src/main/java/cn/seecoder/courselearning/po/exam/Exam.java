@@ -4,6 +4,7 @@ import cn.seecoder.courselearning.vo.exam.ExamVO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -14,9 +15,9 @@ public class Exam {
 
     private String questionIdList;
 
-    private Date startingTime;
+    private LocalDateTime startingTime;
 
-    private Date endingTime;
+    private LocalDateTime endingTime;
 
     private Integer courseId;
 

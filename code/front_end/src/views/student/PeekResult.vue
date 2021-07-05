@@ -1,7 +1,6 @@
 <template>
   <div>
-    // TODO 展示内容
-
+    <!--    TODO 展示内容-->
   </div>
 </template>
 
@@ -11,15 +10,15 @@ import { getUserExamById } from "@/api/exam";
 export default {
   name: "PeekResult",
 
-  data(){
-    return{
-      userExamInfo:{
+  data() {
+    return {
+      userExamInfo: {
         userId: window.localStorage.getItem("userId"),
         examId: this.$route.params,
         score: 0,
         trueAnswer: "",
         userAnswer: "",
-        trueOrFalse : ""
+        trueOrFalse: ""
       },
 
       examToCheck: {
@@ -33,23 +32,20 @@ export default {
       showSuccessDialog: false,
       showFailDialog: false,
       showCheckDialog: false,
-      msg: "",
-    }
-
+      msg: ""
+    };
   },
 
   methods: {
     refresh() {
-      const examId_  = this.$route.params;
+      const examId_ = this.$route.params;
       const userId_ = window.localStorage.getItem("userId");
-      getUserExamById(examId_,userId_).then(res => {
+      getUserExamById(examId_, userId_).then(res => {
         this.examToCheck = res;
       });
-    },
+    }
   }
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

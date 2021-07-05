@@ -30,7 +30,10 @@
         @click="buyCourse"
         >{{ cost === 0 ? "免费购买" : "购买课程" }}</v-btn
       >
-      <v-btn text v-show="status === -1 || !hasLogin" @click="handleExamPeek"
+      <v-btn
+        text
+        v-show="(status === 0 || status === 1) && hasLogin"
+        @click="handleExamPeek"
         >查看已发布测试</v-btn
       >
     </v-card-actions>

@@ -73,7 +73,7 @@ public class ExamController {
      * 得到进行中测试
      */
     @GetMapping("/getContinueExam")
-    public ResultVO<ExamVO> getContinueExam(@RequestParam Integer courseId){
+    public List<ExamVO> getContinueExam(@RequestParam Integer courseId){
         return examService.getContinueExam(courseId);
     }
 
@@ -81,7 +81,8 @@ public class ExamController {
      * 得到已结束测试
      */
     @GetMapping("/getOverExam")
-    public ResultVO<ExamVO> getOverExam(@RequestParam Integer courseId){
+    public List<ExamVO> getOverExam(@RequestParam Integer courseId){
+        System.out.println(examService.getOverExam(courseId));
         return examService.getOverExam(courseId);
     }
 }

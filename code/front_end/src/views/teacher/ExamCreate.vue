@@ -92,13 +92,14 @@ import { getAvailableQuestionsForCourseId } from "@/api/exam";
 
 export default {
   name: "ExamCreate",
+  inject: ["reload"],
 
   data() {
     return {
       examInfo: {
+        questionIdList: "",
         startingTime: "",
         endingTime: "",
-        questionIdList: "",
         courseId: 0,
         teacherId: window.localStorage.getItem("userId")
       },
@@ -155,9 +156,9 @@ export default {
       this.formatQuestionList();
 
       const e = {
+        questionIdList: this.examInfo.questionIdList,
         startingTime: this.examInfo.startingTime,
         endingTime: this.examInfo.endingTime,
-        questionIdList: this.examInfo.questionIdList,
         courseId: this.examInfo.courseId,
         teacherId: this.examInfo.teacherId
       };

@@ -3,6 +3,7 @@ package cn.seecoder.courselearning.vo.exam;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import cn.seecoder.courselearning.po.exam.Exam;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -10,6 +11,7 @@ import java.util.List;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Data
 @NoArgsConstructor
@@ -18,11 +20,11 @@ public class ExamVO {
 
     private String questionIdList;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date startingTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime startingTime;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date endingTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime endingTime;
 
     private Integer courseId;
 

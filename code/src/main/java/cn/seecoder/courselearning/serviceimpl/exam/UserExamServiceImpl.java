@@ -27,7 +27,7 @@ public class UserExamServiceImpl implements UserExamService {
 //        return new ResultVO<>(Constant.REQUEST_FAIL, "服务器错误");
 //    }
 
-    // TODO 在 setUp里面实现和正确答案比较计算分数（应该只能算出选择题的分数），并实现到 UserExamMapper的映射
+    // TODO 在 setUp里面实现和正确答案比较计算分数（暂时先只管算出选择题的分数），并实现到 UserExamMapper的映射
 
     @Override
     public ResultVO<UserExamVO> setUpExam(UserExamVO userExamVO) {

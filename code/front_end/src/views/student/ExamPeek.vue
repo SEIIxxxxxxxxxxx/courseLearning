@@ -16,11 +16,26 @@
         </v-chip>
       </v-row>
       <v-row>
-        //TODO 显示进行中测试信息，循环中嵌套下面的按钮
-        <v-btn class="ml-0 mt-8 info" @click="takeExam(item.id)">
-          参加测试
-        </v-btn>
+        <v-card
+          v-for="o in continueExamList"
+          :key="o.id"
+          :color="colorList[o.id % colorList.length]"
+          class="ma-8 pa-4"
+        >
+          <v-card-title class="heading">
+            课程ID: {{ o.courseId }}
+          </v-card-title>
 
+          <v-card-text class="mt-1">
+            题目数量: {{ getQuestionNums(o.questionIdList) }}
+          </v-card-text>
+          <v-card-text class="mt-2">
+            {{ o.startingTime }} - {{ o.endingTime }}
+          </v-card-text>
+          <v-card-actions class="pa-0 pl-2">
+            <v-btn text @click="takeExam(o.id)">参加考试</v-btn>
+          </v-card-actions>
+        </v-card>
       </v-row>
       <!-- 已结束测试 -->
       <v-row class="mt-8 mb-2">
@@ -37,60 +52,87 @@
         </v-chip>
       </v-row>
       <v-row>
-        // TODO 显示已结束测试信息，循环中嵌套下面的按钮
-        <v-btn class="ml-0 mt-8 info" @click="peekResult(item.id)">
-          查看结果
-        </v-btn>
+        <v-card
+          v-for="o in overExamList"
+          :key="o.id"
+          :color="colorList[o.id % colorList.length]"
+          class="ma-8 pa-4"
+        >
+          <v-card-title class="heading">
+            课程ID: {{ o.courseId }}
+          </v-card-title>
 
+          <v-card-text class="mt-1">
+            题目数量: {{ getQuestionNums(o.questionIdList) }}
+          </v-card-text>
+          <v-card-text class="mt-2">
+            {{ o.startingTime }} - {{ o.endingTime }}
+          </v-card-text>
+          <v-card-actions class="pa-0 pl-2">
+            <v-btn text @click="peekResult(o.id)">查看结果</v-btn>
+          </v-card-actions>
+        </v-card>
       </v-row>
     </v-container>
   </div>
 </template>
 
 <script>
-
-import {
-  getContinueExam,
-  getOverExam
-} from "@/api/exam";
+import { getContinueExam, getOverExam } from "@/api/exam";
 
 export default {
   inject: ["reload"],
 
   name: "ExamPeek",
 
-  data(){
+  data() {
     return {
       continueExamList: [],
-      overExamList:[]
-    }
+      overExamList: [],
+      colorList: [
+        "#FFAB91",
+        "#26A69A",
+        "#039BE5",
+        "#546E7A",
+        "#B39DDB",
+        "#EF9A9A"
+      ]
+    };
   },
 
-  methods:{
+  methods: {
     fetchData() {
       this.handleContinueExams();
       this.handleOverExams();
+
+      console.log(this.overExamList);
     },
 
-    handleContinueExams(){
-      const cid = window.localStorage.getItem("courseId");
-      getContinueExam(cid).then(res => {
-          this.continueExamList = res.list;
-        });
+    getQuestionNums(questionList) {
+      const tmp_list = questionList.split("::");
+      return tmp_list.length;
     },
 
-    handleOverExams(){
-      const cid = window.localStorage.getItem("courseId");
-      getOverExam(cid).then(res => {
-        this.overExamList = res.list;
+    handleContinueExams() {
+      const { courseId } = this.$route.params;
+      getContinueExam(courseId).then(res => {
+        this.continueExamList = res;
+        console.log(this.continueExamList);
       });
     },
 
-    takeExam(examId){
+    handleOverExams() {
+      const { courseId } = this.$route.params;
+      getOverExam(courseId).then(res => {
+        this.overExamList = res;
+      });
+    },
+
+    takeExam(examId) {
       this.$router.push(`/student/takeExam/${examId}`);
     },
 
-    peekResult(examId){
+    peekResult(examId) {
       this.$router.push(`/student/PeekResult/${examId}`);
     }
   },
