@@ -32,23 +32,9 @@ public class UserExamVO {
         this.trueOrFalse = userExam.getTrueOrFalse();
     }
 
-    public List<String> splitTrueAnswers(String trueAnswer){
+    public List<String> splitAnswers(String trueAnswer){
         List<String> ret = new ArrayList<>();
         String[] x = trueAnswer.split("::");
-        Collections.addAll(ret, x);
-        return ret;
-    }
-
-    public List<String> splitUserAnswers(String userAnswer){
-        List<String> ret = new ArrayList<>();
-        String[] x = userAnswer.split("::");
-        Collections.addAll(ret, x);
-        return ret;
-    }
-
-    public List<String> splitTrueOrFalse(String trueOrFalse){
-        List<String> ret = new ArrayList<>();
-        String[] x = trueOrFalse.split("::");
         Collections.addAll(ret, x);
         return ret;
     }

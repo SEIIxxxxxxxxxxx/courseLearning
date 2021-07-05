@@ -11,4 +11,6 @@ public interface QuestionService {
     List<QuestionVO> getQuestion(Integer courseID);
 
     ResultVO<QuestionVO> createQuestion(QuestionVO questionVO);
+
+    QuestionVO getQuestionById(Integer qid);
 }

@@ -7,7 +7,14 @@ import { EXAM_MODULE, QUESTION_MODULE } from "./_prefix";
  * @returns
  */
 export const createExam = exam => {
-  const { startingTime, endingTime, questionIdList, courseId, teacherId } = exam;
+  const {
+    startingTime,
+    endingTime,
+    questionIdList,
+    courseId,
+    teacherId
+  } = exam;
+
   return axios
     .post(`${EXAM_MODULE}/create`, {
       startingTime,
@@ -47,6 +54,24 @@ export const createUserExam = userExam => {
     .then(res => {
       return res.data;
     });
+};
+
+/**
+ * 根据用户号和测试号获取用户测试  GET exam/getUserExam
+ * @param {*} userId
+ * @param {*} examId
+ * @returns
+ */
+
+export const getUserExam = (userId,examId) => {
+  return axios
+    .get(`${EXAM_MODULE}/getUserExam`, {
+      params: {
+        userId,
+        examId
+      }
+    })
+    .then(res => res.data);
 };
 
 /**
@@ -94,17 +119,19 @@ export const getContinueExam = courseId => {
 };
 
 /**
- * 得到课程对应进行中测试
+ * 得到课程对应已结束测试
  * @param {*} courseId
  * @returns
  */
 
-export const getOverExam = courseId => {
+export const getOverExam = (courseId) => {
   return axios
     .get(`${EXAM_MODULE}/getOverExam`, {
       params: {
-        courseId
+        courseId,
       }
     })
     .then(res => res.data);
 };
+
+

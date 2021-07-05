@@ -29,6 +29,11 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
+    public QuestionVO getQuestionById(Integer qid) {
+        return new QuestionVO(questionMapper.selectByPrimaryKey(qid));
+    }
+
+    @Override
     public List<QuestionVO> getAllQuestion(){
         List<QuestionVO> ret = new ArrayList<>();
         List<Question> questions = questionMapper.selectAll();

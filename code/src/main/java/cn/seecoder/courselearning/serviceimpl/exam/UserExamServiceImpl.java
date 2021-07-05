@@ -5,6 +5,7 @@ import cn.seecoder.courselearning.po.exam.UserExam;
 import cn.seecoder.courselearning.service.exam.UserExamService;
 import cn.seecoder.courselearning.util.Constant;
 import cn.seecoder.courselearning.vo.ResultVO;
+import cn.seecoder.courselearning.vo.exam.ExamVO;
 import cn.seecoder.courselearning.vo.exam.UserExamVO;
 import org.springframework.stereotype.Service;
 
@@ -16,23 +17,12 @@ public class UserExamServiceImpl implements UserExamService {
     @Resource
     private UserExamMapper userExamMapper;
 
-    //感觉测试提交就是创建用户测试
-//    @Override
-//    public ResultVO<UserExamVO> createUserExam(UserExamVO userExamVO) {
-//        UserExam userExam = new UserExam(userExamVO);
-//        System.out.println(userExam);
-//        if (userExamMapper.insert(userExam) > 0) {
-//            return new ResultVO<>(Constant.REQUEST_SUCCESS, "题目创建成功", userExamVO);
-//        }
-//        return new ResultVO<>(Constant.REQUEST_FAIL, "服务器错误");
-//    }
-
     // TODO 在 setUp里面实现和正确答案比较计算分数（暂时先只管算出选择题的分数），并实现到 UserExamMapper的映射
 
     @Override
     public ResultVO<UserExamVO> setUpExam(UserExamVO userExamVO) {
-        List<String> userAnswer = userExamVO.splitUserAnswers(userExamVO.getUserAnswer());
-        List<String> trueAnswer = userExamVO.splitTrueAnswers(userExamVO.getTrueAnswer());
+        List<String> userAnswer = userExamVO.splitAnswers(userExamVO.getUserAnswer());
+        List<String> trueAnswer = userExamVO.splitAnswers(userExamVO.getTrueAnswer());
         StringBuilder ret = new StringBuilder();
         for (int i = 0; i < userAnswer.size(); i++) {
             if (userAnswer.get(i).equals(trueAnswer.get(i))) {
@@ -43,6 +33,17 @@ public class UserExamServiceImpl implements UserExamService {
         }
         ret.deleteCharAt(ret.length() - 1);
         userExamVO.setTrueOrFalse(ret.toString());
-        return new ResultVO<>(Constant.REQUEST_SUCCESS, "测试提交成功", userExamVO);
+
+        UserExam userExam = new UserExam(userExamVO);
+        if(userExamMapper.insert(userExam) > 0){
+            return new ResultVO<>(Constant.REQUEST_SUCCESS, "测试提交成功", userExamVO);
+        }
+        return new ResultVO<>(Constant.REQUEST_FAIL, "服务器错误");
+
+    }
+
+    @Override
+    public UserExamVO getUserExam(Integer userId, Integer examId) {
+        return new UserExamVO(userExamMapper.selectByPrimaryKey(userId,examId));
     }
 }

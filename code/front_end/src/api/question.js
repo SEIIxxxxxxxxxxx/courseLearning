@@ -37,7 +37,18 @@ export const getAllQuestions = () => {
  */
 
 export const getCourseQuestion = courseID => {
-  return axios.get(`${QUESTION_MODULE}/cid/${courseID}`).then(res => {
+  return axios.get(`${QUESTION_MODULE}/getByCourseId/${courseID}`).then(res => {
+    return res.data;
+  });
+};
+
+/**
+ * 获取指定qid题库题目
+ * @param {*} qid
+ */
+
+export const getQuestionById = qid => {
+  return axios.get(`${QUESTION_MODULE}/getByQuestionId/${qid}`).then(res => {
     return res.data;
   });
 };

@@ -32,6 +32,15 @@ public class QuestionController {
     }
 
     /**
+     * 根据题目id查找对应题目
+     *  @param qid 题目id
+     */
+    @GetMapping("/getByQuestionId/{qid}")
+    public QuestionVO getQuestion(@PathVariable String qid){
+        return questionService.getQuestionById(Integer.parseInt(qid));
+    }
+
+    /**
      * 返回题库中全部题目
      */
     @GetMapping("/all")
