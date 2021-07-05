@@ -7,11 +7,11 @@ import { EXAM_MODULE, QUESTION_MODULE } from "./_prefix";
  * @returns
  */
 export const createExam = exam => {
-  const { startTime, endTime, questionIdList, courseId, teacherId } = exam;
+  const { startingTime, endingTime, questionIdList, courseId, teacherId } = exam;
   return axios
     .post(`${EXAM_MODULE}/create`, {
-      startTime,
-      endTime,
+      startingTime,
+      endingTime,
       questionIdList,
       courseId,
       teacherId
