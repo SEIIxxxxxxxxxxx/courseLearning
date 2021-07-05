@@ -51,15 +51,15 @@ export const createUserExam = userExam => {
 
 /**
  * 根据测试号获取测试  GET exam/getExamById
- * @param {*} examId
+ * @param {*} eid
  * @returns
  */
 
-export const getExamById = examId => {
+export const getExamById = eid => {
   return axios
     .get(`${EXAM_MODULE}/getExamById`, {
       params: {
-        examId
+        eid
       }
     })
     .then(res => res.data);

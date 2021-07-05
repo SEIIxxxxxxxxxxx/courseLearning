@@ -59,7 +59,7 @@
           <ul>
             <li v-for="(c, index) in questionToBeChosen" :key="c.id">
               <v-checkbox
-                :label="`${c.id} ： ${c.stem}`"
+                :label="`${c.stem}`"
                 v-model="questionIdMap[index].isSelected"
                 color="success"
               ></v-checkbox>
@@ -92,7 +92,7 @@ import { getAvailableQuestionsForCourseId } from "@/api/exam";
 
 export default {
   name: "ExamCreate",
-  // inject: ["reload"],
+  inject: ["reload"],
 
   data() {
     return {
@@ -139,7 +139,7 @@ export default {
       } else {
         console.log(this.questionIdMap);
         for (let i = 0; i < this.questionToBeChosen.length; i++) {
-          this.questionIdMap.push({ qid: i + 1, isSelected: false });
+          this.questionIdMap.push({ qid: this.questionToBeChosen[i].id, isSelected: false });
         }
       }
     },
