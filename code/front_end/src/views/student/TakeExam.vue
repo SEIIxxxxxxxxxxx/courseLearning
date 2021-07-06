@@ -33,164 +33,179 @@
     >
       请检查信息是否完整填写且格式正确！
     </v-alert>
-
     <v-container class="pl-16 pr-16">
-      <li v-for="(op, index) in questionList" :key="op.id">
-       <form class="pa-12 grey lighten-5 mt-8">
-         第{{ (index+1) }}题：
-         {{op.stem}}
-
-         <div v-show="op.type === '单选题'">
-           <v-radio-group v-model="userAnswerList[index]">
-             <v-radio
-               v-for="(n,index) in allOptionsForEachQuestion[index]"
-               :key="n.id"
-               :label="`${n.id} ： ${n.option}`"
-             ></v-radio>
-           </v-radio-group>
-         </div>
-
-         <div v-show="op.type === '多选题'">
-           <ul>
-             <li v-for="(op, index) in allOptionsForEachQuestion[index]" :key="op.id">
-               <v-checkbox
-                 :label="`${op.id} ： ${op.option}`"
-                 v-model="userAnswerList[index].option"
-                 color="success"
-               ></v-checkbox>
-             </li>
-           </ul>
-         </div>
-
-         <v-textarea
-           v-show="op.type === '问答题'"
-           label="答题区"
-           v-model="userAnswerList[index].option"
-           clearable
-           :counter="200"
-           :rules="areaRules"
-         ></v-textarea>
-
-       </form>
-      </li>
+      <div v-for="(q, index) in questionInfoList" :key="q.id">
+        <v-text-field
+          v-model="q.stem"
+          readonly
+          :label="`第${index + 1}题`"
+        ></v-text-field>
+        <v-textarea
+          v-show="q.type === '问答题'"
+          label="答案"
+          v-model="userAnswerList[index]"
+          clearable
+          :counter="200"
+          :rules="rules.AreaRules"
+        ></v-textarea>
+        <div v-show="q.type === '单选题'">
+          {{ "请选择唯一正确的答案" }}
+          <v-radio-group v-model="userAnswerList[index]">
+            <v-radio
+              v-for="(n, idd) in getOptions(q.option)"
+              :key="idd"
+              :value="String.fromCharCode(65 + idd)"
+              :label="`${String.fromCharCode(idd + 65)} ： ${n}`"
+            ></v-radio>
+          </v-radio-group>
+        </div>
+        <div v-if="q.type === '多选题'">
+          {{ "请选择正确的全部答案" }}
+          <dl>
+            <dt>
+              <v-checkbox
+                v-for="(op, idx) in getOptions(q.option)"
+                :key="idx"
+                :label="`${String.fromCharCode(idx + 65)} ： ${op}`"
+                :value="String.fromCharCode(idx + 65)"
+                v-model="multiSelected[index]"
+                color="success"
+              ></v-checkbox>
+            </dt>
+          </dl>
+        </div>
+      </div>
       <v-btn class="ml-0 mt-8 info" @click="submit">
-        提交测试
+        提交
       </v-btn>
+      <!--      <v-btn class="ml-0 mt-8 info" @click="test">-->
+      <!--        测试-->
+      <!--      </v-btn>-->
     </v-container>
   </div>
 </template>
 
 <script>
-import { getExamById } from "../../api/exam";
-import { createUserExam } from "../../api/exam";
-import { getQuestionById } from "../../api/question";
+import { createUserExam, getExamById } from "@/api/exam";
+import { getQuestionById } from "@/api/question";
 
 export default {
   name: "TakeExam",
-  data(){
+  data() {
     return {
       userExamInfo: {
         userId: window.localStorage.getItem("userId"),
         examId: this.$route.params,
         score: 0,
-        trueAnswer: "",
+        trueAnswer: "-1",
         userAnswer: "",
-        trueOrFalse: ""
+        trueOrFalse: "-1"
       },
 
       examToTake: {
-        startingTime: "",
-        endingTime: "",
+        startTime: "",
+        endTime: "",
         questionIdList: "",
         courseId: 0,
         teacherId: 0
       },
-
-      questionToAnswer:{
-        id: 0,
-        stem: "",
-        type: "",
-        str_option: "",
-        answer: "",
-        analysis: "",
-        courseID: 0
-      },
-
       questionList: [],
+      questionInfoList: [],
       userAnswerList: [],
-      allOptionsForEachQuestion: [],
-
+      multiChoicesNum: [],
+      multiSelected: [],
       showSuccessDialog: false,
       showFailDialog: false,
       showCheckDialog: false,
-
-
-      areaRules: [
-        v => !!v || "提示: 不能为空",
-        v => v.length <= 200 || "提示: 输入超过字数限制"
-      ],
-
-      msg: "",
-    }
-
+      rules: {
+        AreaRules: [
+          v => !!v || "提示: 不能为空",
+          v => v.length <= 200 || "提示: 输入超过字数限制"
+        ],
+        OptionRules: [
+          v => !!v || "提示: 不能为空",
+          v => v.length <= 50 || "提示: 输入超过字数限制"
+        ]
+      },
+      msg: ""
+    };
   },
   methods: {
+    // test() {
+    //   console.log(this.multiSelected);
+    //   console.log(this.multiChoicesNum);
+    //   this.formatUserAnswerList();
+    //   console.log(this.userExamInfo.userAnswer);
+    // },
     refresh() {
       const { examId } = this.$route.params;
-      getExamById( examId ).then(res => {
+      getExamById(examId).then(res => {
         this.examToTake = res;
-        let questionNoList = [];
-        questionNoList = this.examToTake.questionIdList.split("::")
-        for (let i = 0; i < questionNoList.length; i++) {
-          <!--TODO:bug to solve: get不到数据，是前端的问题,后端测试过应该没问题 -->
-          this.questionList.push(getQuestionById(questionNoList[i]));
+        this.questionList = (this.examToTake.questionIdList || "").split("::");
+        for (let i = 0; i < this.questionList.length; i++) {
+          this.getAQuestion(this.questionList[i]);
+          this.userAnswerList.push("");
         }
       });
     },
 
-    prepareQuestionOptions() {
-      let ret = [];
-      for(let i=0;i<this.questionList.length;i++){
-        let temp = this.questionList[i].str_option.split("::");
-        for(let j=0;j<temp.length;j++){
-          ret.push({id:String.fromCharCode(j + 65), option:temp[j]});
+    initMultiOptions(idx, flag) {
+      if (flag) {
+        this.multiChoicesNum.push(idx);
+      }
+      this.multiSelected.push([]);
+    },
+
+    getAQuestion(id) {
+      getQuestionById(id).then(res => {
+        let i = this.questionInfoList.push(res.data);
+        if (res.data.type === "多选题") {
+          this.initMultiOptions(i - 1, true);
+        } else {
+          this.initMultiOptions(i - 1, false);
         }
-      }
-      this.allOptionsForEachQuestion = ret;
+      });
     },
 
+    getOptions(str) {
+      return (str || "").split("::");
+    },
 
-    formatUserAnswerList(){
-      for(let i=0;i<this.userAnswerList.length;i++){
+    formatMultiAnswer() {
+      for (let i = 0; i < this.multiChoicesNum.length; i++) {
+        let idx = this.multiChoicesNum[i];
+        let tmp = "";
+        let ans = this.multiSelected[idx].sort();
+        for (let j = 0; j < ans.length; j++) {
+          tmp += ans[j];
+        }
+        this.userAnswerList[idx] = tmp;
+      }
+    },
+
+    formatUserAnswerList() {
+      this.formatMultiAnswer();
+      for (let i = 0; i < this.userAnswerList.length; i++) {
+        if (i !== 0) {
+          this.userExamInfo.userAnswer += "::";
+        }
         this.userExamInfo.userAnswer += this.userAnswerList[i];
-        this.userExamInfo.userAnswer += "::";
       }
-      this.userExamInfo.userAnswer = this.userExamInfo.userAnswer.substr(
-        0,
-        this.userExamInfo.userAnswer - 2
-      );
-    },
-
-    setTrueAnswer(){
-      for(let i=0;i<this.questionList.length;i++){
-        this.userExamInfo.trueAnswer += this.questionList[i].answer;
-        this.userExamInfo.trueAnswer += "::";
-      }
-      this.userExamInfo.trueAnswer = this.userExamInfo.trueAnswer.substr(
-        0,
-        this.userExamInfo.trueAnswer - 2
-      );
+      console.log(this.userExamInfo.userAnswer);
     },
 
     submit() {
       this.formatUserAnswerList();
-      this.setTrueAnswer();
 
       const e = {
-        ...this.userExamInfo,
+        userId: this.userExamInfo.userId,
+        examId: this.userExamInfo.examId.examId,
+        score: this.userExamInfo.score,
+        trueAnswer: this.userExamInfo.trueAnswer,
+        userAnswer: this.userExamInfo.userAnswer,
+        trueOrFalse: this.userExamInfo.trueOrFalse
       };
       console.log(e);
-
 
       createUserExam(e).then(res => {
         console.log(res);
@@ -212,13 +227,8 @@ export default {
 
   mounted() {
     this.refresh();
-    this.prepareQuestionOptions();
   }
-
 };
 </script>
 
-
-<style scoped>
-
-</style>
+<style scoped></style>

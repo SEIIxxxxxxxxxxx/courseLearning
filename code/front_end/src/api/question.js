@@ -43,12 +43,12 @@ export const getCourseQuestion = courseID => {
 };
 
 /**
- * 获取指定qid题库题目
- * @param {*} qid
+ * 获取指定ID题库题目
+ * @param {*} id
  */
 
-export const getQuestionById = qid => {
-  return axios.get(`${QUESTION_MODULE}/getByQuestionId/${qid}`).then(res => {
+export const getQuestionById = id => {
+  return axios.get(`${QUESTION_MODULE}/getById/${id}`).then(res => {
     return res.data;
   });
 };

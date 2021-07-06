@@ -139,7 +139,10 @@ export default {
       } else {
         console.log(this.questionIdMap);
         for (let i = 0; i < this.questionToBeChosen.length; i++) {
-          this.questionIdMap.push({ qid: this.questionToBeChosen[i].id, isSelected: false });
+          this.questionIdMap.push({
+            qid: this.questionToBeChosen[i].id,
+            isSelected: false
+          });
         }
       }
     },
@@ -156,7 +159,7 @@ export default {
       this.formatQuestionList();
 
       const e = {
-        ...this.examInfo,
+        ...this.examInfo
       };
       console.log(e);
 
