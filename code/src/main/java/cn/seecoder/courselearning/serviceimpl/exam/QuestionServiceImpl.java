@@ -29,8 +29,8 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public QuestionVO getQuestionById(Integer qid) {
-        return new QuestionVO(questionMapper.selectByPrimaryKey(qid));
+    public ResultVO<QuestionVO> getQuestionById(Integer id) {
+        return new ResultVO<>(Constant.REQUEST_SUCCESS, "题目获取成功", new QuestionVO(questionMapper.selectByPrimaryKey(id))) ;
     }
 
     @Override

@@ -217,6 +217,17 @@ export default {
       if (this.questionInfo.type === "单选题") {
         this.formatSingle();
       }
+      if (this.questionInfo.type === "多选题") {
+        let ans = this.questionInfo.answer.split("");
+        let tmp = "";
+        for (let i = 0; i < ans.length; i++) {
+          if (i !== 0) {
+            tmp += "::";
+          }
+          tmp += ans[i];
+        }
+        this.questionInfo.answer = tmp;
+      }
       const q = {
         type: this.questionInfo.type,
         stem: this.questionInfo.stem,

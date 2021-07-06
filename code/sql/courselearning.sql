@@ -161,7 +161,7 @@ CREATE TABLE `question`  (
 -- Records of question
 -- ----------------------------
 INSERT INTO `question` VALUES (1, '单选题', '石大佬迟到了几次？', '2::3::4::5', '无', 'C', 1);
-INSERT INTO `question` VALUES (2, '多选题', '石大佬可能会迟到几次？', '6::7::8::9', '无', 'ABCD', 1);
+INSERT INTO `question` VALUES (2, '多选题', '石大佬可能会迟到几次？', '6::7::8::9', '无', 'A::B::C::D', 1);
 
 -- ----------------------------
 -- Table structure for exam

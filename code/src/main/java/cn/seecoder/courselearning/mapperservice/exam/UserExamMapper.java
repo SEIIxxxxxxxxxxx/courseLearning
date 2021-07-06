@@ -9,7 +9,9 @@ public interface UserExamMapper {
 
     int update(UserExam record);
 
+    UserExam selectByExamIdAndUserId(@Param(value = "examId") Integer examId, @Param(value = "userId")  Integer userId);
+
     List<UserExam>selectByUserId(Integer userId);
 
-    UserExam selectByPrimaryKey(Integer userId, Integer examId);
+    int deleteByExamIdAndUserId(@Param(value = "examId") Integer examId, @Param(value = "userId")  Integer userId);
 }

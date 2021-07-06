@@ -33,11 +33,11 @@ public class QuestionController {
 
     /**
      * 根据题目id查找对应题目
-     *  @param qid 题目id
+     *  @param id 题目id
      */
-    @GetMapping("/getByQuestionId/{qid}")
-    public QuestionVO getQuestion(@PathVariable String qid){
-        return questionService.getQuestionById(Integer.parseInt(qid));
+    @GetMapping("/getById/{id}")
+    public ResultVO<QuestionVO> getQuestionById(@PathVariable String id){
+        return questionService.getQuestionById(Integer.parseInt(id));
     }
 
     /**

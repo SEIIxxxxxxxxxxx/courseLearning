@@ -51,20 +51,22 @@ public class ExamController {
         return examService.getExamById(eid);
     }
 
+
+
+//    /**
+//     * 作答测试
+//     */
+//    @PostMapping("/answer")
+//    public ResultVO<ExamVO> answerExam(@RequestBody ExamVO exam){
+//        return examService.answerExam(exam);
+//    }
+
     /**
      * 提交测试
      */
     @PostMapping("/setUp")
     public ResultVO<UserExamVO> setUpExam(@RequestBody UserExamVO userExam){
         return userExamService.setUpExam(userExam);
-    }
-
-    /**
-     * 得到用户测试
-     */
-    @GetMapping("/getUserExam")
-    public UserExamVO getUserExam(@RequestParam Integer userId,Integer examId){
-        return userExamService.getUserExam(userId,examId);
     }
 
     /**
@@ -80,7 +82,7 @@ public class ExamController {
      */
     @GetMapping("/getOverExam")
     public List<ExamVO> getOverExam(@RequestParam Integer courseId){
-        System.out.println(examService.getOverExam(courseId));
+//        System.out.println(examService.getOverExam(courseId));
         return examService.getOverExam(courseId);
     }
 }
