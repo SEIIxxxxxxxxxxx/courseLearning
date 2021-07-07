@@ -39,6 +39,8 @@ public class CourseVO {
     // 标记当前用户（学生）是否已购买解锁
     private boolean bought;
 
+    private boolean rent;
+
     // 标记当前用户（老师）是否有权限管理课程
     private boolean manageable;
 
@@ -60,6 +62,7 @@ public class CourseVO {
         likes = course.getLikes();
         liked = false;
         bought = false;
+        rent = false;
         manageable = false;
     }
 

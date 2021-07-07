@@ -18,8 +18,9 @@ public interface CourseOrderService {
 
 
     ResultVO<CourseOrderVO> getCourseOrderById(Integer orderId);
-    // 完成付款
-    ResultVO<Boolean> payOrder(Integer orderId);
+     // 完成付款
+    ResultVO<Boolean> payOrder(Integer orderId, Integer duration, Integer rentCost);
     // 创建订单
-    ResultVO<CourseOrderVO> createCourseOrder(Integer courseId, Integer userId);
+    ResultVO<CourseOrderVO> createCourseOrder(Integer courseId, Integer userId, Integer type);
+
 }

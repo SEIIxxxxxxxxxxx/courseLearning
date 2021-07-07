@@ -23,8 +23,8 @@ public class CourseOrderController {
 //    }
 
     @PostMapping("/create")
-    public ResultVO<CourseOrderVO> createCourseOrder(@RequestParam Integer uid, @RequestParam Integer courseId){
-        return orderService.createCourseOrder(courseId,uid);
+    public ResultVO<CourseOrderVO> createCourseOrder(@RequestParam Integer uid, @RequestParam Integer courseId, @RequestParam Integer type){
+        return orderService.createCourseOrder(courseId,uid, type);
     }
 
     /**
@@ -56,8 +56,8 @@ public class CourseOrderController {
         return orderService.cancelCoupon(orderVO, couponId);
     }
 
-    @PostMapping("/pay/{orderId}")
-    public ResultVO<Boolean> payOrder(@PathVariable Integer orderId){
-        return orderService.payOrder(orderId);
+    @PostMapping("/pay")
+    public ResultVO<Boolean> payOrder(@PathVariable Integer orderId, Integer duration, Integer rentCost){
+        return orderService.payOrder(orderId, duration, rentCost);
     }
 }

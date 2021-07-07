@@ -31,6 +31,12 @@
         >{{ cost === 0 ? "免费购买" : "购买课程" }}</v-btn
       >
       <v-btn
+          text
+          v-show="status === -1 || (status === 0 && !rent)"
+          @click="rentCourse"
+      >{{ cost === 0 ? "免费购买" : "租用课程" }}</v-btn
+      >
+      <v-btn
         text
         v-show="(status === 0 || status === 1) && hasLogin"
         @click="handleExamPeek"

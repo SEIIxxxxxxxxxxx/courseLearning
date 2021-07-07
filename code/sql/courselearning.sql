@@ -67,11 +67,14 @@ CREATE TABLE `course_likes`  (
 DROP TABLE IF EXISTS `course_order`;
 CREATE TABLE `course_order`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` int(11) NOT NULL,
   `origin` int(11) NOT NULL,
   `cost` int(11) NOT NULL,
   `course_id` int(11) NOT NULL,
   `course_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `create_time` datetime(0) NOT NULL,
+  `start_time` datetime(0) NOT NULL,
+  `end_time` datetime(0) NOT NULL,
   `user_id` int(11) NOT NULL,
   `status` int(11) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
@@ -80,6 +83,7 @@ CREATE TABLE `course_order`  (
   CONSTRAINT `fk_course_order` FOREIGN KEY (`course_id`) REFERENCES `course` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
   CONSTRAINT `fk_user_order` FOREIGN KEY (`user_id`) REFERENCES `user_info` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
 
 -- ----------------------------
 -- Table structure for course_order_coupon

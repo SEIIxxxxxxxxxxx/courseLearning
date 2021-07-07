@@ -7,9 +7,9 @@ import { ORDER_MODULE, VIP_MODULE } from "./_prefix";
  * @param uid
  * @param courseId
  */
-export const createOrder = (uid, courseId) => {
+ export const createOrder = (uid, courseId, type) => {
   return axios
-    .post(`${ORDER_MODULE}/create?uid=${uid}&courseId=${courseId}`)
+    .post(`${ORDER_MODULE}/create?uid=${uid}&courseId=${courseId}&type=${type}`)
     .then(res => {
       return res.data;
     });
@@ -77,8 +77,8 @@ export const cancelCoupon = (order, couponId) => {
     .then(res => res.data);
 };
 
-export const payOrder = orderId => {
-  return axios.post(`${ORDER_MODULE}/pay/${orderId}`).then(res => res.data);
+export const payOrder = (orderId, duration, rentCost) => {
+  return axios.post(`${ORDER_MODULE}/pay?orderId=${orderId}&duration=${duration}&rentCost=${rentCost}`).then(res => res.data);
 };
 
 /**

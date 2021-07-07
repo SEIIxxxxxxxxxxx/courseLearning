@@ -32,6 +32,7 @@
           :course-likes="course.likes"
           :liked="course.liked"
           @buy-course="showDialog"
+          @rent-course="showDialog"
           @set-like="setLikeOrDislike"
         >
         </course-item>
@@ -77,6 +78,7 @@
                     :course-likes="course.likes"
                     :liked="course.liked"
                     @buy-course="showDialog"
+                    @rent-course="showDialog"
                     @set-like="setLikeOrDislike"
                   >
                   </course-item>
@@ -132,6 +134,7 @@
           :course-likes="course.likes"
           :liked="course.liked"
           @buy-course="showDialog"
+          @rent-course="showDialog"
           @set-like="setLikeOrDislike"
         >
         </course-item>
@@ -180,11 +183,102 @@
           :course-likes="course.likes"
           :liked="course.liked"
           @buy-course="showDialog"
+          @rent-course="showDialog"
           @set-like="setLikeOrDislike"
         >
         </course-item>
       </v-row>
     </v-container>
+
+<!-- 租用提示对话框 -->
+    <v-dialog v-model="dialog3" width="1000">
+      <v-card>
+        <v-card-title>租用信息确认</v-card-title>
+        <v-card-text> 是否租用课程 「{{ currentCourseName }}」？ </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" text @click="settleDialog3=true;orderType=2;">
+            选择租用方案
+          </v-btn>
+          <v-btn color="primary" text @click="dialog3 = false">
+            取消
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="settleDialog3" width = "1000">
+      <v-card>
+        <v-card-title>租用方案</v-card-title>
+        <v-card-text>
+          <v-container>
+            <v-row>
+              <v-col cols="12" sm = "6" md="4">
+                <v-select
+                  :items="rentTimeList"
+                  label = "选择租用时长"
+                  v-model="rentTime"
+                ></v-select>
+              </v-col>
+              <v-col cols="12" sm="6" md="4">
+                <v-text-field
+                    label="租用费用"
+                    v-show="rentTime === 7"
+                    v-model="rentMapper[rentTime]"
+                    readonly
+                ></v-text-field>
+                <v-text-field
+                    label="租用费用"
+                    v-show="rentTime === 15"
+                    v-model="rentMapper[rentTime]"
+                    readonly
+                ></v-text-field>
+                <v-text-field
+                    label="租用费用"
+                    v-show="rentTime === 30"
+                    v-model="rentMapper[rentTime]"
+                    readonly
+                ></v-text-field>
+              </v-col>
+            </v-row>
+
+            <v-divider></v-divider>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="primary" text @click="openSettleDialog3">
+                确认租用方案
+              </v-btn>
+              <v-btn color="primary" text @click="settleDialog3=false">
+                取消
+              </v-btn>
+            </v-card-actions>
+          </v-container>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+
+    <!-- 租用支付 -->
+    <v-dialog v-model="settleDialog4" width="1000">
+      <v-card>
+        <v-card-title>租用支付确认</v-card-title>
+        <v-card-text>是否支付{{rentCost}}元租用课程「{{ currentCourseName }}」{{rentTime}}天？</v-card-text>
+        <v-divider></v-divider>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" text @click="confirmPayment">
+            确认支付
+          </v-btn>
+          <v-btn color="primary" text @click="leaveSettlement">
+            取消
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
 
     <!-- 购买提示对话框 -->
     <v-dialog v-model="dialog" width="1000">
@@ -196,7 +290,7 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="openSettleDialog">
+          <v-btn color="primary" text @click="openSettleDialog();orderType=1">
             选择结算方案
           </v-btn>
           <v-btn color="primary" text @click="dialog = false">
@@ -225,8 +319,10 @@
           <v-card-actions class="justify-space-around d-flex">
             <v-alert type="info">课程原价： {{ currentOrder.origin }}</v-alert>
             <v-alert type="success">实际付款： {{ currentOrder.cost }}</v-alert>
-            <v-btn color="primary" @click="confirmPayment">确认支付</v-btn>
-            <v-btn color="secondary" @click="leaveSettlement">离开</v-btn>
+            <v-btn color="primary" text @click="confirmPayment">
+              确认支付</v-btn>
+            <v-btn color="secondary" text @click="leaveSettlement">
+              离开</v-btn>
           </v-card-actions>
         </div>
       </v-card>
@@ -291,10 +387,12 @@ export default {
     return {
       dialog: false,
       dialog2: false,
+      dialog3: false,
       msg: "",
       currentCourseId: 0,
       currentCourseName: "",
       currentCoursePrice: 0,
+      orderType:0,
       colorList: ["#26A69A", "#00B0FF", "#5C6BC0", "#FFB300", "#E57373"],
       currentTab: 0, // 0 1 2
       primary: {
@@ -350,7 +448,18 @@ export default {
       coupons: [],
       selectedCoupons: [],
       settleDialog: false,
+      settleDialog3: false,
+      settleDialog4: false,
+      selectRentFlag: true,
       currentOrder: {}
+      rentTimeList:[7,15,30],
+      rentTime:0,
+      rentCost:0,
+      rentMapper:{
+        7:1,
+        15:2,
+        30:3
+      }
     };
   },
 
@@ -383,15 +492,22 @@ export default {
   },
 
   methods: {
-    showDialog(courseId, courseName, coursePrice) {
+    showDialog(courseId, courseName, coursePrice,orderType) {
       this.currentCourseId = courseId;
       this.currentCourseName = courseName;
       this.currentCoursePrice = coursePrice;
-      this.dialog = true;
+      this.orderType = ordType;
+      if(ordType==1){
+        this.dialog = true;
+      }
+      else{
+        this.dialog3=true;
+      }
     },
+
     openSettleDialog() {
       const uid = window.localStorage.getItem("userId");
-      createOrder(uid, this.currentCourseId).then(res => {
+      createOrder(uid, this.currentCourseId,this.orderType).then(res => {
         if (res.code === 0) {
           this.snackBarColor = "error";
           this.snackBarMsg = res.msg;
@@ -413,6 +529,25 @@ export default {
         });
       });
     },
+
+    openSettleDialog3(){
+      const uid = window.localStorage.getItem("userId");
+      createOrder(uid, this.currentCourseId,this.orderType).then(res => {
+        if (res.code === 0) {
+          this.snackBarColor = "error";
+          this.snackBarMsg = res.msg;
+          this.showSnackBar = true;
+          this.dialog3 = false;
+
+          return;
+        }
+        this.rentCost=this.rentMapper[this.rentTime];
+        this.dialog3 = false;
+        this.settleDialog4=true;
+        this.currentOrder = res.data;
+      });
+    },
+
     handleGetCoursesByType(page, type) {
       const uid = window.localStorage.getItem("userId");
       const typeMap = { primary: "初级", medium: "中级", advanced: "高级" };
@@ -518,7 +653,10 @@ export default {
       });
     },
     confirmPayment() {
+      
       this.settleDialog = false;
+      this.settleDialog4 = false;
+      this.settleDialog3 = false;
       payOrder(this.currentOrder.id).then(res => {
         this.snackBarColor = "success";
         this.snackBarMsg = res.msg;
@@ -535,6 +673,8 @@ export default {
       this.coupons = [];
       this.selectedCoupons = [];
       this.settleDialog = false;
+      this.settleDialog4=false;
+      this.settleDialog3=false;
     }
   },
 

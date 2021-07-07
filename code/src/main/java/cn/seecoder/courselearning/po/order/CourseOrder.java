@@ -8,6 +8,8 @@ import java.util.Date;
 public class CourseOrder {
     private Integer id;
 
+    private Integer type;
+
     private Integer origin;
 
     private Integer cost;
@@ -17,6 +19,10 @@ public class CourseOrder {
     private String courseName;
 
     private Date createTime;
+
+    private Date startTime;
+
+    private Date endTime;
 
     private Integer userId;
 
@@ -29,6 +35,10 @@ public class CourseOrder {
     public void setId(Integer id) {
         this.id = id;
     }
+
+    public Integer getType(){return type;}
+
+    public void setType(int type){this.type=type;}
 
     public Integer getOrigin() {
         return origin;
@@ -70,6 +80,14 @@ public class CourseOrder {
         this.createTime = createTime;
     }
 
+    public Date getStartTime(){return startTime;}
+
+    public void setStartTime(Date startTime){this.startTime=startTime;}
+
+    public Date getEndTime(){return endTime;}
+
+    public void setEndTime(Date endTime){this.endTime=endTime;}
+
     public Integer getUserId() {
         return userId;
     }
@@ -91,11 +109,14 @@ public class CourseOrder {
 
     public CourseOrder(@NonNull CourseOrderVO orderVO){
         this.id = orderVO.getId();
+        this.type=orderVO.getType();
         this.origin = orderVO.getOrigin();
         this.cost = orderVO.getCost();
         this.courseId = orderVO.getCourseId();
         this.courseName = orderVO.getCourseName();
         this.createTime = orderVO.getCreateTime()==null ? new Date():orderVO.getCreateTime();
+        this.startTime = orderVO.getStartTime()==null ? new Date() : orderVO.getStartTime();
+        this.endTime = orderVO.getEndTime()==null ? new Date() : orderVO.getEndTime();
         this.userId = orderVO.getUserId();
         this.status = orderVO.getStatus();
     }

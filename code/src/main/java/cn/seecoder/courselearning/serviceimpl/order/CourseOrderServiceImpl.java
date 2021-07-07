@@ -184,16 +184,27 @@ public class CourseOrderServiceImpl implements CourseOrderService {
     }
 
     @Override
-    public ResultVO<Boolean> payOrder(Integer orderId) {
+    public ResultVO<Boolean> payOrder(Integer orderId, Integer duration, Integer rentCost) {
         CourseOrder order = orderMapper.selectByPrimaryKey(orderId);
         // 当订单状态为未支付时，检查用户余额是否足够
         UserVO userVO = userService.getUser(order.getUserId());
+
+        if(order.getType()==1)duration=3650;
+        else order.setCost(rentCost);
 
         if(userVO.getBalance()>=order.getCost()){
             userService.decreaseBalance(userVO.getId(),order.getCost());
             // 支付成功，将订单存入数据库
             ResultVO<CourseOrderVO> resultVO = updateCourseOrder(orderId,Constant.ORDER_STATUS_SUCCESS);
             if (resultVO.getCode().equals(Constant.REQUEST_SUCCESS)){
+                order.setStartTime(new Date());
+                Date d = new Date();
+                Calendar c = Calendar.getInstance();
+                c.setTime(d);
+
+                c.add(Calendar.DATE, duration);
+                Date newDate = c.getTime();
+                order.setEndTime(newDate);
                 return new ResultVO<>(Constant.REQUEST_SUCCESS,"付款成功");
             }else{
                 return new ResultVO<>(Constant.REQUEST_FAIL,resultVO.getMsg());
@@ -203,7 +214,6 @@ public class CourseOrderServiceImpl implements CourseOrderService {
         }
 
     }
-
     /**
      * 创建订单，没有检查重复
      * @param courseId
@@ -212,7 +222,8 @@ public class CourseOrderServiceImpl implements CourseOrderService {
      * @author cyx
      */
     @Override
-    public ResultVO<CourseOrderVO> createCourseOrder(Integer courseId, Integer userId) {
+    @Override
+    public ResultVO<CourseOrderVO> createCourseOrder(Integer courseId, Integer userId, Integer type) {
         List<CourseOrder> courseOrderList = orderMapper.selectByUserId(userId);
 
         for(CourseOrder order: courseOrderList){
@@ -235,10 +246,13 @@ public class CourseOrderServiceImpl implements CourseOrderService {
 
         order.setUserId(userId);
         order.setCourseId(courseId);
+        order.setType(type);
         CourseVO courseVO = courseService.getCourse(courseId,userId);
         order.setCost(courseVO.getCost());
         order.setStatus(Constant.ORDER_STATUS_UNPAID);
         order.setCreateTime(new Date());
+        order.setStartTime(new Date());
+        order.setEndTime(new Date());
         order.setCourseName(courseVO.getName());
         order.setOrigin(courseVO.getCost());
 
