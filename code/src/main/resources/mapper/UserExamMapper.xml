@@ -12,18 +12,18 @@
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete from user_exam
-        where user_id = #{user_id,jdbcType=INTEGER} and exam_id = #{exam_id,jdbcType=INTEGER}
+        where user_id = #{userId,jdbcType=INTEGER} and exam_id = #{examId,jdbcType=INTEGER}
     </delete>
 
     <insert id="insert" parameterType="cn.seecoder.courselearning.po.exam.Exam" useGeneratedKeys="true" keyProperty="id">
         insert into user_exam (user_id, exam_id, score, true_answer, user_answer, true_or_false)
-        values (#{user_id,jdbcType=INTEGER}, #{exam_id,jdbcType=INTEGER}, #{score,jdbcType=INTEGER}, #{true_answer,jdbcType=VARCHAR}, #{user_answer,jdbcType=VARCHAR}, #{true_or_false,jdbcType=VARCHAR})
+        values (#{userId,jdbcType=INTEGER}, #{examId,jdbcType=INTEGER}, #{score,jdbcType=INTEGER}, #{trueAnswer,jdbcType=VARCHAR}, #{userAnswer,jdbcType=VARCHAR}, #{trueOrFalse,jdbcType=VARCHAR})
     </insert>
 
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select user_id, exam_id, score, true_answer, user_answer, true_or_false
         from user_exam
-        where user_id = #{user_id,jdbcType=INTEGER} and exam_id = #{exam_id,jdbcType=INTEGER}
+        where user_id = #{userId,jdbcType=INTEGER} and exam_id = #{examId,jdbcType=INTEGER}
     </select>
     <select id="selectAll" resultMap="BaseResultMap">
         select user_id, exam_id, score, true_answer, user_answer, true_or_false

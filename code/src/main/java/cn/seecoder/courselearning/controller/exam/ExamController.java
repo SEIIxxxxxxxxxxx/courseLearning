@@ -15,6 +15,7 @@ import java.util.List;
 public class ExamController {
     @Resource
     ExamService examService;
+    @Resource
     UserExamService userExamService;
 
     /**

@@ -222,7 +222,6 @@ public class CourseOrderServiceImpl implements CourseOrderService {
      * @author cyx
      */
     @Override
-    @Override
     public ResultVO<CourseOrderVO> createCourseOrder(Integer courseId, Integer userId, Integer type) {
         List<CourseOrder> courseOrderList = orderMapper.selectByUserId(userId);
 

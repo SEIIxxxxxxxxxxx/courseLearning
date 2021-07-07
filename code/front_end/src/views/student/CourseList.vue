@@ -1,5 +1,16 @@
 <template>
   <div>
+    <!-- alert -->
+    <v-alert
+      class="alert"
+      outlined
+      type="success"
+      text
+      v-show="showSuccessDialog"
+      transition="scroll-y-transition"
+    >
+      成功！
+    </v-alert>
     <v-container class="ma-8 pa-4">
       <!-- 热门课程 -->
       <v-row class="mt-8 mb-2">
@@ -190,7 +201,7 @@
       </v-row>
     </v-container>
 
-<!-- 租用提示对话框 -->
+    <!-- 租用提示对话框 -->
     <v-dialog v-model="dialog3" width="1000">
       <v-card>
         <v-card-title>租用信息确认</v-card-title>
@@ -200,7 +211,14 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="settleDialog3=true;orderType=2;">
+          <v-btn
+            color="primary"
+            text
+            @click="
+              settleDialog3 = true;
+              orderType = 2;
+            "
+          >
             选择租用方案
           </v-btn>
           <v-btn color="primary" text @click="dialog3 = false">
@@ -210,37 +228,37 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="settleDialog3" width = "1000">
+    <v-dialog v-model="settleDialog3" width="1000">
       <v-card>
         <v-card-title>租用方案</v-card-title>
         <v-card-text>
           <v-container>
             <v-row>
-              <v-col cols="12" sm = "6" md="4">
+              <v-col cols="12" sm="6" md="4">
                 <v-select
                   :items="rentTimeList"
-                  label = "选择租用时长"
+                  label="选择租用时长（天）"
                   v-model="rentTime"
                 ></v-select>
               </v-col>
               <v-col cols="12" sm="6" md="4">
                 <v-text-field
-                    label="租用费用"
-                    v-show="rentTime === 7"
-                    v-model="rentMapper[rentTime]"
-                    readonly
+                  label="租用费用"
+                  v-show="rentTime === 7"
+                  v-model="rentMapper[rentTime]"
+                  readonly
                 ></v-text-field>
                 <v-text-field
-                    label="租用费用"
-                    v-show="rentTime === 15"
-                    v-model="rentMapper[rentTime]"
-                    readonly
+                  label="租用费用"
+                  v-show="rentTime === 15"
+                  v-model="rentMapper[rentTime]"
+                  readonly
                 ></v-text-field>
                 <v-text-field
-                    label="租用费用"
-                    v-show="rentTime === 30"
-                    v-model="rentMapper[rentTime]"
-                    readonly
+                  label="租用费用"
+                  v-show="rentTime === 30"
+                  v-model="rentMapper[rentTime]"
+                  readonly
                 ></v-text-field>
               </v-col>
             </v-row>
@@ -252,7 +270,7 @@
               <v-btn color="primary" text @click="openSettleDialog3">
                 确认租用方案
               </v-btn>
-              <v-btn color="primary" text @click="settleDialog3=false">
+              <v-btn color="primary" text @click="settleDialog3 = false">
                 取消
               </v-btn>
             </v-card-actions>
@@ -265,7 +283,11 @@
     <v-dialog v-model="settleDialog4" width="1000">
       <v-card>
         <v-card-title>租用支付确认</v-card-title>
-        <v-card-text>是否支付{{rentCost}}元租用课程「{{ currentCourseName }}」{{rentTime}}天？</v-card-text>
+        <v-card-text
+          >是否支付{{ rentCost }}元租用课程「{{ currentCourseName }}」{{
+            rentTime
+          }}天？</v-card-text
+        >
         <v-divider></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -279,7 +301,6 @@
       </v-card>
     </v-dialog>
 
-
     <!-- 购买提示对话框 -->
     <v-dialog v-model="dialog" width="1000">
       <v-card>
@@ -290,7 +311,14 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="openSettleDialog();orderType=1">
+          <v-btn
+            color="primary"
+            text
+            @click="
+              openSettleDialog();
+              orderType = 1;
+            "
+          >
             选择结算方案
           </v-btn>
           <v-btn color="primary" text @click="dialog = false">
@@ -320,9 +348,9 @@
             <v-alert type="info">课程原价： {{ currentOrder.origin }}</v-alert>
             <v-alert type="success">实际付款： {{ currentOrder.cost }}</v-alert>
             <v-btn color="primary" text @click="confirmPayment">
-              确认支付</v-btn>
-            <v-btn color="secondary" text @click="leaveSettlement">
-              离开</v-btn>
+              确认支付</v-btn
+            >
+            <v-btn color="secondary" text @click="leaveSettlement"> 离开</v-btn>
           </v-card-actions>
         </div>
       </v-card>
@@ -392,7 +420,7 @@ export default {
       currentCourseId: 0,
       currentCourseName: "",
       currentCoursePrice: 0,
-      orderType:0,
+      orderType: 0,
       colorList: ["#26A69A", "#00B0FF", "#5C6BC0", "#FFB300", "#E57373"],
       currentTab: 0, // 0 1 2
       primary: {
@@ -417,7 +445,6 @@ export default {
       searchCourse: [],
       searchTotalPage: 1,
       searchCurrentPage: 1,
-      //
       boughtCoursesList: [],
       hotCourseList: [],
       showSnackBar: false,
@@ -451,14 +478,15 @@ export default {
       settleDialog3: false,
       settleDialog4: false,
       selectRentFlag: true,
-      currentOrder: {}
-      rentTimeList:[7,15,30],
-      rentTime:0,
-      rentCost:0,
-      rentMapper:{
-        7:1,
-        15:2,
-        30:3
+      showSuccessDialog: false,
+      currentOrder: {},
+      rentTimeList: [7, 15, 30],
+      rentTime: 0,
+      rentCost: 0,
+      rentMapper: {
+        7: 1,
+        15: 2,
+        30: 3
       }
     };
   },
@@ -492,22 +520,21 @@ export default {
   },
 
   methods: {
-    showDialog(courseId, courseName, coursePrice,orderType) {
+    showDialog(courseId, courseName, coursePrice, ordType) {
       this.currentCourseId = courseId;
       this.currentCourseName = courseName;
       this.currentCoursePrice = coursePrice;
       this.orderType = ordType;
-      if(ordType==1){
+      if (ordType === 1) {
         this.dialog = true;
-      }
-      else{
-        this.dialog3=true;
+      } else {
+        this.dialog3 = true;
       }
     },
 
     openSettleDialog() {
       const uid = window.localStorage.getItem("userId");
-      createOrder(uid, this.currentCourseId,this.orderType).then(res => {
+      createOrder(uid, this.currentCourseId, this.orderType).then(res => {
         if (res.code === 0) {
           this.snackBarColor = "error";
           this.snackBarMsg = res.msg;
@@ -530,20 +557,19 @@ export default {
       });
     },
 
-    openSettleDialog3(){
+    openSettleDialog3() {
       const uid = window.localStorage.getItem("userId");
-      createOrder(uid, this.currentCourseId,this.orderType).then(res => {
+      createOrder(uid, this.currentCourseId, this.orderType).then(res => {
         if (res.code === 0) {
           this.snackBarColor = "error";
           this.snackBarMsg = res.msg;
           this.showSnackBar = true;
           this.dialog3 = false;
-
           return;
         }
-        this.rentCost=this.rentMapper[this.rentTime];
+        this.rentCost = this.rentMapper[this.rentTime];
         this.dialog3 = false;
-        this.settleDialog4=true;
+        this.settleDialog4 = true;
         this.currentOrder = res.data;
       });
     },
@@ -653,15 +679,13 @@ export default {
       });
     },
     confirmPayment() {
-      
       this.settleDialog = false;
       this.settleDialog4 = false;
       this.settleDialog3 = false;
-      payOrder(this.currentOrder.id).then(res => {
+      payOrder(this.currentOrder.id, this.rentTime, this.rentCost).then(res => {
         this.snackBarColor = "success";
         this.snackBarMsg = res.msg;
         this.showSnackBar = true;
-        //刷新
         this.reload();
       });
     },
@@ -673,8 +697,8 @@ export default {
       this.coupons = [];
       this.selectedCoupons = [];
       this.settleDialog = false;
-      this.settleDialog4=false;
-      this.settleDialog3=false;
+      this.settleDialog4 = false;
+      this.settleDialog3 = false;
     }
   },
 

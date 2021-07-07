@@ -39,6 +39,17 @@ public class VIPOrderServiceImpl implements VIPOrderService {
         return new ResultVO<>(Constant.REQUEST_SUCCESS, "查找完成", endTime);
     }
 
+    private Date getVipHistory(Integer uid){
+        List<VIPOrder> data = vipOrderMapper.selectByUserId(uid);
+        Date cur = new Date();
+        for (VIPOrder datum : data) {
+            if (datum.getEndTime().compareTo(cur) > 0) {
+                cur = datum.getEndTime();
+            }
+        }
+        return cur;
+    }
+
     @Override
     public ResultVO<VIPOrderVO> createVipOrder(Integer userId, Integer type) {
         int[] costs = new int[]{5, 20, 180};
@@ -47,7 +58,7 @@ public class VIPOrderServiceImpl implements VIPOrderService {
         if(user.getBalance() >= cost){
             userService.decreaseBalance(userId, cost);
             VIPOrderVO tmp = new VIPOrderVO();
-            tmp.setCreateTime(new Date());
+            tmp.setCreateTime(this.getVipHistory(userId));
             tmp.setUserId(userId);
             tmp.setType(type);
             VIPOrder vipOrder = new VIPOrder(tmp);
@@ -63,14 +74,14 @@ public class VIPOrderServiceImpl implements VIPOrderService {
     }
 
     @Override
-    public Boolean isVip(Integer uid) {
+    public ResultVO<Boolean> isVip(Integer uid) {
         List<VIPOrder> data = vipOrderMapper.selectByUserId(uid);
         Date cur = new Date();
         for (VIPOrder datum : data) {
             if (datum.getEndTime().compareTo(cur) > 0) {
-                return true;
+                return new ResultVO<>(Constant.REQUEST_SUCCESS, "欢迎您，会员", true);
             }
         }
-        return false;
+        return new ResultVO<>(Constant.REQUEST_SUCCESS, "您还不是会员", false);
     }
 }

@@ -13,5 +13,5 @@ public interface VIPOrderService {
     ResultVO<VIPOrderVO> createVipOrder(Integer userId, Integer type);
 
     // 判断会员身份
-    Boolean isVip(Integer uid);
+    ResultVO<Boolean> isVip(Integer uid);
 }

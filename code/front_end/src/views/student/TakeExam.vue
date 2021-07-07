@@ -91,6 +91,7 @@ import { getQuestionById } from "@/api/question";
 
 export default {
   name: "TakeExam",
+  inject: ["reload"],
   data() {
     return {
       userExamInfo: {
@@ -171,6 +172,17 @@ export default {
       return (str || "").split("::");
     },
 
+    formatTrueAnswer() {
+      let tmp = "";
+      for (let i = 0; i < this.questionInfoList.length; i++) {
+        if (i !== 0) {
+          tmp += "::";
+        }
+        tmp += this.questionInfoList[i].answer;
+      }
+      this.userExamInfo.trueAnswer = tmp;
+    },
+
     formatMultiAnswer() {
       for (let i = 0; i < this.multiChoicesNum.length; i++) {
         let idx = this.multiChoicesNum[i];
@@ -196,7 +208,7 @@ export default {
 
     submit() {
       this.formatUserAnswerList();
-
+      this.formatTrueAnswer();
       const e = {
         userId: this.userExamInfo.userId,
         examId: this.userExamInfo.examId.examId,

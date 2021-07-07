@@ -57,7 +57,7 @@ public class CourseOrderController {
     }
 
     @PostMapping("/pay")
-    public ResultVO<Boolean> payOrder(@PathVariable Integer orderId, Integer duration, Integer rentCost){
+    public ResultVO<Boolean> payOrder(@RequestParam Integer orderId, @RequestParam Integer duration, @RequestParam Integer rentCost){
         return orderService.payOrder(orderId, duration, rentCost);
     }
 }

@@ -29,4 +29,12 @@ public class VIPOrderController {
     public ResultVO<String> getVipEndTime(@PathVariable Integer userId){
         return vipOrderService.getVipEndTime(userId);
     }
+
+    /**
+     * 判断会员身份
+     */
+    @GetMapping("/getVIP/{userId}")
+    public ResultVO<Boolean> checkVIP(@PathVariable Integer userId){
+        return vipOrderService.isVip(userId);
+    }
 }

@@ -31,10 +31,10 @@
         >{{ cost === 0 ? "免费购买" : "购买课程" }}</v-btn
       >
       <v-btn
-          text
-          v-show="status === -1 || (status === 0 && !rent)"
-          @click="rentCourse"
-      >{{ cost === 0 ? "免费购买" : "租用课程" }}</v-btn
+        text
+        v-show="status === -1 || (status === 0 && !rent)"
+        @click="rentCourse"
+        >{{ cost === 0 ? "免费购买" : "租用课程" }}</v-btn
       >
       <v-btn
         text
@@ -113,6 +113,10 @@ export default Vue.extend({
     liked: {
       type: Boolean,
       default: false
+    },
+    rent: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -125,6 +129,9 @@ export default Vue.extend({
     buyCourse() {
       this.$emit("buy-course", this.courseId, this.courseName, this.cost);
     },
+    rentCourse() {
+      this.$emit("rent-course", this.courseId, this.courseName, this.cost);
+    },
     handleStudy() {
       if (this.hasLogin) {
         this.$router.push(`/student/course/${this.courseId}`);
@@ -135,7 +142,7 @@ export default Vue.extend({
     handlePeek() {
       this.$router.push(`/student/peek/${this.courseId}`);
     },
-    handleExamPeek(){
+    handleExamPeek() {
       this.$router.push(`/student/examPeek/${this.courseId}`);
     },
     handleLike() {

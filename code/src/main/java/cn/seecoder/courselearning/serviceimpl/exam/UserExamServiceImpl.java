@@ -18,6 +18,7 @@ public class UserExamServiceImpl implements UserExamService {
 
     @Override
     public ResultVO<UserExamVO> setUpExam(UserExamVO userExamVO) {
+        clearExamHistory(userExamVO.getUserId(), userExamVO.getExamId());
         List<String> userAnswer = userExamVO.splitUserAnswers(userExamVO.getUserAnswer());
         List<String> trueAnswer = userExamVO.splitTrueAnswers(userExamVO.getTrueAnswer());
         StringBuilder ret = new StringBuilder();
@@ -28,10 +29,13 @@ public class UserExamServiceImpl implements UserExamService {
             else if(defineMulti(userAnswer.get(i), trueAnswer.get(i))){
                 ret.append("1");
             }
-            ret.append("0");
-            ret.append("::");
+            else{
+                ret.append("0");
+            }
+            if(i < userAnswer.size() - 1){
+                ret.append("::");
+            }
         }
-        ret.deleteCharAt(ret.length() - 1);
         userExamVO.setTrueOrFalse(ret.toString());
         int score = calScore(userExamVO.getTrueOrFalse());
         if(score != -1){
@@ -62,7 +66,7 @@ public class UserExamServiceImpl implements UserExamService {
     private int calScore(String flags){
         double ans;
         int res = 0;
-        String[] tmp = flags.split("");
+        String[] tmp = flags.split("::");
         for (String s : tmp) {
             if(Integer.parseInt(s) >= 0 && Integer.parseInt(s) <= 2){
                 res += Integer.parseInt(s);
@@ -76,9 +80,15 @@ public class UserExamServiceImpl implements UserExamService {
     }
 
 //    public static void main(String[] args){
-//        System.out.println(calScore("0211220"));
-//        System.out.println(calScore("2222222"));
-//        System.out.println(calScore("2132110"));
-//        System.out.println(calScore("0000000"));
+//        System.out.println(calScore("0::2::1::1::2::2::0"));
+//        System.out.println(calScore("2::2::2::2::2::2::2"));
+//        System.out.println(calScore("2::1::3::2::1::1::0"));
+//        System.out.println(calScore("0::0::0::0::0::0::0"));
 //    }
+
+    private void clearExamHistory(Integer uid, Integer eid){
+        if(userExamMapper.selectByPrimaryKey(eid, uid) != null){
+            userExamMapper.deleteByPrimaryKey(eid, uid);
+        }
+    }
 }

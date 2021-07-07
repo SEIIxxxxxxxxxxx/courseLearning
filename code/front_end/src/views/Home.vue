@@ -29,6 +29,7 @@
                     :course-likes="course.likes"
                     @buy-course="showDialog"
                     @set-like="showDialog"
+                    @rent-course="showDialog"
                   >
                   </course-item>
                 </v-row>
@@ -76,6 +77,7 @@
           :course-likes="course.likes"
           @buy-course="showDialog"
           @set-like="showDialog"
+          @rent-course="showDialog"
         >
         </course-item>
       </v-row>

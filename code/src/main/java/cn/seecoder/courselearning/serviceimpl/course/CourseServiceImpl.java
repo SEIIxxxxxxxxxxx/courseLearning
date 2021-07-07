@@ -6,6 +6,7 @@ import cn.seecoder.courselearning.po.course.Course;
 import cn.seecoder.courselearning.po.order.CourseOrder;
 import cn.seecoder.courselearning.service.course.CourseService;
 import cn.seecoder.courselearning.service.order.QueryOrderService;
+import cn.seecoder.courselearning.service.order.VIPOrderService;
 import cn.seecoder.courselearning.util.Constant;
 import cn.seecoder.courselearning.util.PageInfoUtil;
 import cn.seecoder.courselearning.vo.course.CourseVO;
@@ -26,8 +27,10 @@ public class CourseServiceImpl implements CourseService {
     private CourseMapper courseMapper;
     @Resource
     private CourseLikesMapper courseLikesMapper;
-
+    @Resource
     private QueryOrderService orderService;
+    @Resource
+    private VIPOrderService vipOrderService;
 
     @Autowired
     public void setOrderService(QueryOrderService orderService) {
@@ -62,6 +65,9 @@ public class CourseServiceImpl implements CourseService {
     public List<CourseVO> getBoughtCourses(Integer uid) {
         List<CourseVO> ret = new ArrayList<>();
         List<Course> courseList = courseMapper.selectByStudentId(uid);
+        if(vipOrderService.isVip(uid).getData()){
+            courseList = courseMapper.selectAll();
+        }
         for(Course course: courseList){
             boolean liked = (courseLikesMapper.count(course.getId(), uid) > 0);
             ret.add(new CourseVO(course, true, false, liked));
@@ -140,6 +146,9 @@ public class CourseServiceImpl implements CourseService {
                 CourseOrder order = orderService.queryMostRecentOrder(uid, vo.getId());
                 if(order != null)
                     vo.setBought(order.getStatus().equals(Constant.ORDER_STATUS_SUCCESS));
+                else if(vipOrderService.isVip(uid).getData()){
+                    vo.setBought(true);
+                }
                 vo.setManageable(uid.equals(vo.getTeacherId()));
 
                 vo.setLiked(courseLikesMapper.count(vo.getId(), uid) > 0);
