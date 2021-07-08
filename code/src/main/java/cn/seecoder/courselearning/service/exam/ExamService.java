@@ -15,8 +15,6 @@ public interface ExamService {
     List<ExamVO> getExam(Integer courseId);
     //根据测试号获取测试
     ExamVO getExamById(Integer eid);
-    //作答测试
-    ResultVO<ExamVO> answerExam(ExamVO examVO);
     //获取进行中测试
     List<ExamVO> getContinueExam(Integer courseId);
     //获取已结束测试

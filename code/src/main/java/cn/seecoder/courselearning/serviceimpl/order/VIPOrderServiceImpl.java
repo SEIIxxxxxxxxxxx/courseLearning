@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -83,5 +84,15 @@ public class VIPOrderServiceImpl implements VIPOrderService {
             }
         }
         return new ResultVO<>(Constant.REQUEST_SUCCESS, "您还不是会员", false);
+    }
+
+    @Override
+    public List<VIPOrderVO> getVipOrder(Integer userId) {
+        List<VIPOrder> data = vipOrderMapper.selectByUserId(userId);
+        List<VIPOrderVO> ret = new ArrayList<>();
+        for (VIPOrder tmp : data) {
+            ret.add(new VIPOrderVO(tmp));
+        }
+        return ret;
     }
 }

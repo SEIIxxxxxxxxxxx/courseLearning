@@ -88,7 +88,7 @@
 
 <script>
 import { createExam } from "@/api/exam";
-import { getAvailableQuestionsForCourseId } from "@/api/exam";
+import { getAvailableQuestionsForCourseId } from "@/api/question";
 
 export default {
   name: "ExamCreate",

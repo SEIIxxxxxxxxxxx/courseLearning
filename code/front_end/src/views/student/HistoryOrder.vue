@@ -19,12 +19,30 @@
           <v-btn v-if="o.status !== 1" text>尚未支付</v-btn>
         </v-card-actions>
       </v-card>
+      <v-card
+        v-for="v in vipOrderList"
+        :key="v.id"
+        :color="colorList[v.id % colorList.length]"
+        class="ma-8 pa-4"
+      >
+        <v-card-title class="headline">
+          {{ items[v.type] }}
+        </v-card-title>
+
+        <v-card-subtitle class="mt-1">
+          购买时间: {{ v.createTime }}
+        </v-card-subtitle>
+        <v-card-subtitle class="mt-1">
+          到期时间: {{ v.endTime }}
+        </v-card-subtitle>
+      </v-card>
     </v-container>
   </div>
 </template>
 
 <script>
 import { getOrdersByUser } from "@/api/order";
+import { getVipOrder } from "@/api/vip";
 
 export default {
   name: "HistoryOrder",
@@ -38,18 +56,27 @@ export default {
         "#B39DDB",
         "#EF9A9A"
       ],
-      orderList: []
+      orderList: [],
+      vipOrderList: [],
+      items: ["贵族日卡", "尊贵月卡", "皇冠年卡"]
     };
   },
 
   methods: {
     handleStudy(courseId) {
       this.$router.push(`/student/course/${courseId}`);
+    },
+    getVipOrders(uid) {
+      getVipOrder(uid).then(res => {
+        console.log(res);
+        this.vipOrderList = res || [];
+      });
     }
   },
 
   mounted() {
     const uid = window.localStorage.getItem("userId");
+    this.getVipOrders(uid);
     getOrdersByUser(uid).then(res => {
       console.log(res);
       this.orderList = res || [];

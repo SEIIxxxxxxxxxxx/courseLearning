@@ -61,11 +61,6 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
-    public ResultVO<ExamVO> answerExam(ExamVO examVO) {
-        return null;
-    }
-
-    @Override
     public List<ExamVO> getContinueExam(Integer courseId) {
         List<ExamVO> ret = new ArrayList<>();
         List<Exam> exams = examMapper.selectAll();

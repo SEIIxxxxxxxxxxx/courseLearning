@@ -143,7 +143,7 @@
 <script>
 import { getUser } from "@/api/user";
 import { recharge } from "@/api/recharge";
-import { createVipOrder, getVipEndTime } from "@/api/order";
+import { createVipOrder, getVipEndTime } from "@/api/vip";
 
 export default {
   name: "UserCenter",
@@ -168,7 +168,7 @@ export default {
       vip: "尊贵会员",
       value: 0,
       type: null,
-      items: ["日卡：￥5", "月卡：￥20", "年卡：￥180"],
+      items: ["贵族日卡：￥5", "尊贵月卡：￥20", "皇冠年卡：￥180"],
       endTime: "",
       msg: ""
     };

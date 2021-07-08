@@ -25,3 +25,13 @@ export const getVipEndTime = userId => {
     return res.data.data;
   });
 };
+
+/**
+ * 获取用户会员订单
+ * @param userId
+ */
+export const getVipOrder = userId => {
+  return axios.get(`${VIP_MODULE}/getVipOrder/${userId}`).then(res => {
+    return res.data;
+  });
+};

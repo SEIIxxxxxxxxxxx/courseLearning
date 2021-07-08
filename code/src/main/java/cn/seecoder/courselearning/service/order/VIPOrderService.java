@@ -14,4 +14,7 @@ public interface VIPOrderService {
 
     // 判断会员身份
     ResultVO<Boolean> isVip(Integer uid);
+
+    // 得到会员订单
+    List<VIPOrderVO> getVipOrder(Integer userId);
 }

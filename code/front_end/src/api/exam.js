@@ -28,34 +28,6 @@ export const createExam = exam => {
 };
 
 /**
- * 用户提交测试 POST exam/setUp
- * @param  {*} userExam
- * @returns
- */
-export const createUserExam = userExam => {
-  const {
-    userId,
-    examId,
-    score,
-    trueAnswer,
-    userAnswer,
-    trueOrFalse
-  } = userExam;
-  return axios
-    .post(`${EXAM_MODULE}/setUp`, {
-      userId,
-      examId,
-      score,
-      trueAnswer,
-      userAnswer,
-      trueOrFalse
-    })
-    .then(res => {
-      return res.data;
-    });
-};
-
-/**
  * 根据测试号获取测试  GET exam/getExamById
  * @param {*} eid
  * @returns

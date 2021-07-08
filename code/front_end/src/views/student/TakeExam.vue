@@ -86,8 +86,9 @@
 </template>
 
 <script>
-import { createUserExam, getExamById } from "@/api/exam";
+import { getExamById } from "@/api/exam";
 import { getQuestionById } from "@/api/question";
+import { createUserExam } from "@/api/userExam";
 
 export default {
   name: "TakeExam",

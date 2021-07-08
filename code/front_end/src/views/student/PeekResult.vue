@@ -2,10 +2,11 @@
   <div>
     <v-container class="pl-16 pr-16">
       <div v-show="examToDisplay !== ''">
-        <p class="text-sm-h6 text--primary">
-          您的得分为：{{ examToDisplay.score }} <br />
-          作答情况如下：<br />
-        </p>
+        <v-alert icon="mdi-school" color="primary" elevation="3" top>
+          您的得分为：
+          <h1>{{ examToDisplay.score }}</h1>
+          详细情况如下：
+        </v-alert>
 
         <div v-for="(op, index) in questionInfoList" :key="op.id">
           <v-card class="mx-auto">
@@ -52,9 +53,9 @@
         </div>
       </div>
       <div v-show="examToDisplay === ''">
-        <p class="text-sm-h6 text--primary">
-          您未参加该测试，测试答案如下：<br />
-        </p>
+        <v-alert icon="mdi-school" color="warning" elevation="3" top>
+          您未参加该测试，测试答案如下：
+        </v-alert>
         <div v-for="(op, index) in questionInfoList" :key="op.id">
           <v-card class="mx-auto">
             <v-card-title>第{{ index + 1 }}题</v-card-title>

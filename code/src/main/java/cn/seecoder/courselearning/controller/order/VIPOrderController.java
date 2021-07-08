@@ -6,6 +6,7 @@ import cn.seecoder.courselearning.vo.order.VIPOrderVO;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RestController
 @RequestMapping("/VIP")
@@ -36,5 +37,13 @@ public class VIPOrderController {
     @GetMapping("/getVIP/{userId}")
     public ResultVO<Boolean> checkVIP(@PathVariable Integer userId){
         return vipOrderService.isVip(userId);
+    }
+
+    /**
+     * 得到会员订单
+     */
+    @GetMapping("/getVipOrder/{userId}")
+    public List<VIPOrderVO> createVIPOrder(@PathVariable Integer userId){
+        return vipOrderService.getVipOrder(userId);
     }
 }
