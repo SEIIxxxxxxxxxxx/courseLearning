@@ -1,54 +1,82 @@
 <template>
   <div>
     <v-container class="pl-16 pr-16">
-      <p class="text-sm-h6 text--primary">
-      您的得分为：{{ examToDisplay.score }} <br />
-      作答情况如下：<br />
-      </p>
+      <div v-show="examToDisplay !== ''">
+        <p class="text-sm-h6 text--primary">
+          您的得分为：{{ examToDisplay.score }} <br />
+          作答情况如下：<br />
+        </p>
 
-      <div v-for="(op, index) in questionInfoList" :key="op.id">
-        <v-card class="mx-auto">
-          <v-card-title>第{{ index + 1 }}题</v-card-title>
+        <div v-for="(op, index) in questionInfoList" :key="op.id">
+          <v-card class="mx-auto">
+            <v-card-title>第{{ index + 1 }}题</v-card-title>
 
-          <v-card-text>
-            <p class="text-h5 text--primary">
-              {{ op.stem }}
-            </p>
+            <v-card-text>
+              <p class="text-h5 text--primary">
+                {{ op.stem }}
+              </p>
 
-            <div v-show="op.type === '单选题' || '多选题'">
-              <div v-for="(oq, idd) in getOptions(op.option)" :key="oq">
-                <p class="text-sm-h6 text--primary">
-                  {{ `${String.fromCharCode(idd + 65)}` }}： {{ `${oq}` }}
-                </p>
+              <div v-show="op.type === '单选题' || '多选题'">
+                <div v-for="(oq, idd) in getOptions(op.option)" :key="oq">
+                  <p class="text-sm-h6 text--primary">
+                    {{ `${String.fromCharCode(idd + 65)}` }}： {{ `${oq}` }}
+                  </p>
+                </div>
               </div>
-            </div>
 
-            <div v-show="trueOrFalseList[index] === '2'">
-              <v-alert color="green" elevation="3" type="success">
-                正确答案为：
-                {{ `${trueAnswerList[index]}` }}, 你的答案为：
-                {{ `${userAnswerList[index]}` }}
-              </v-alert>
-            </div>
+              <div v-show="trueOrFalseList[index] === '2'">
+                <v-alert color="green" elevation="3" type="success">
+                  正确答案为：
+                  {{ `${trueAnswerList[index]}` }}, 你的答案为：
+                  {{ `${userAnswerList[index]}` }}
+                </v-alert>
+              </div>
 
-            <div v-show="trueOrFalseList[index] === '1'">
-              <v-alert color="orange" elevation="3" type="warning">
-                正确答案为：
-                {{ `${trueAnswerList[index]}` }}, 你的答案为：
-                {{ `${userAnswerList[index]}` }}
-              </v-alert>
-            </div>
+              <div v-show="trueOrFalseList[index] === '1'">
+                <v-alert color="orange" elevation="3" type="warning">
+                  正确答案为：
+                  {{ `${trueAnswerList[index]}` }}, 你的答案为：
+                  {{ `${userAnswerList[index]}` }}
+                </v-alert>
+              </div>
 
-            <div v-show="trueOrFalseList[index] === '0'">
-              <v-alert color="red" elevation="3" type="error">
-                正确答案为：
-                {{ `${trueAnswerList[index]}` }}, 你的答案为：
-                {{ `${userAnswerList[index]}` }}
+              <div v-show="trueOrFalseList[index] === '0'">
+                <v-alert color="red" elevation="3" type="error">
+                  正确答案为：
+                  {{ `${trueAnswerList[index]}` }}, 你的答案为：
+                  {{ `${userAnswerList[index]}` }}
+                </v-alert>
+              </div>
+            </v-card-text>
+          </v-card>
+        </div>
+      </div>
+      <div v-show="examToDisplay === ''">
+        <p class="text-sm-h6 text--primary">
+          您未参加该测试，测试答案如下：<br />
+        </p>
+        <div v-for="(op, index) in questionInfoList" :key="op.id">
+          <v-card class="mx-auto">
+            <v-card-title>第{{ index + 1 }}题</v-card-title>
+
+            <v-card-text>
+              <p class="text-h5 text--primary">
+                {{ op.stem }}
+              </p>
+
+              <div v-show="op.type === '单选题' || '多选题'">
+                <div v-for="(oq, idd) in getOptions(op.option)" :key="oq">
+                  <p class="text-sm-h6 text--primary">
+                    {{ `${String.fromCharCode(idd + 65)}` }}： {{ `${oq}` }}
+                  </p>
+                </div>
+              </div>
+              <v-alert color="blue" elevation="3" type="error">
+                正确答案为：{{ `${questionInfoList[index].answer}` }}
               </v-alert>
-            </div>
-          </v-card-text>
-        </v-card>
-        <br />
+            </v-card-text>
+          </v-card>
+        </div>
       </div>
     </v-container>
   </div>
@@ -100,15 +128,16 @@ export default {
       const { examId } = this.$route.params;
       const userId = window.localStorage.getItem("userId");
       getUserExam(userId, examId).then(res => {
+        this.prepareExam(examId);
         this.examToDisplay = res;
-        this.prepareExam();
-        this.prepareAnswer();
+        if (this.examToDisplay !== "") {
+          this.prepareAnswer();
+        }
       });
     },
 
-    prepareExam() {
-      getExamById(this.examToDisplay.examId).then(res => {
-        console.log(res);
+    prepareExam(examId) {
+      getExamById(examId).then(res => {
         this.examTaken = res;
         this.questionList = (this.examTaken.questionIdList || "").split("::");
         for (let i = 0; i < this.questionList.length; i++) {
@@ -131,6 +160,10 @@ export default {
 
     getOptions(str) {
       return (str || "").split("::");
+    },
+
+    getAnswer(str) {
+      this.trueAnswerList.push(str);
     }
   },
 

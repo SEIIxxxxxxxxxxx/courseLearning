@@ -81,7 +81,12 @@ public class UserExamServiceImpl implements UserExamService {
 
     @Override
     public UserExamVO getUserExam(Integer userId, Integer examId) {
-        return new UserExamVO(userExamMapper.selectByPrimaryKey(userId,examId));
+        if(userExamMapper.selectByPrimaryKey(userId,examId) !=null) {
+            return new UserExamVO(userExamMapper.selectByPrimaryKey(userId, examId));
+        }
+        else{
+            return null;
+        }
     }
 
 //    public static void main(String[] args){
