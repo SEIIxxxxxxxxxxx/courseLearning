@@ -79,6 +79,11 @@ public class UserExamServiceImpl implements UserExamService {
         return (int) ans;
     }
 
+    @Override
+    public UserExamVO getUserExam(Integer userId, Integer examId) {
+        return new UserExamVO(userExamMapper.selectByPrimaryKey(userId,examId));
+    }
+
 //    public static void main(String[] args){
 //        System.out.println(calScore("0::2::1::1::2::2::0"));
 //        System.out.println(calScore("2::2::2::2::2::2::2"));

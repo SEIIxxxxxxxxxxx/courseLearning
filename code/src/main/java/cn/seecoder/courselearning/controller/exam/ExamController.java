@@ -1,10 +1,8 @@
 package cn.seecoder.courselearning.controller.exam;
 
 import cn.seecoder.courselearning.service.exam.ExamService;
-import cn.seecoder.courselearning.service.exam.UserExamService;
 import cn.seecoder.courselearning.vo.ResultVO;
 import cn.seecoder.courselearning.vo.exam.ExamVO;
-import cn.seecoder.courselearning.vo.exam.UserExamVO;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -15,8 +13,6 @@ import java.util.List;
 public class ExamController {
     @Resource
     ExamService examService;
-    @Resource
-    UserExamService userExamService;
 
     /**
      * 创建测试
@@ -52,23 +48,6 @@ public class ExamController {
         return examService.getExamById(eid);
     }
 
-
-
-//    /**
-//     * 作答测试
-//     */
-//    @PostMapping("/answer")
-//    public ResultVO<ExamVO> answerExam(@RequestBody ExamVO exam){
-//        return examService.answerExam(exam);
-//    }
-
-    /**
-     * 提交测试
-     */
-    @PostMapping("/setUp")
-    public ResultVO<UserExamVO> setUpExam(@RequestBody UserExamVO userExam){
-        return userExamService.setUpExam(userExam);
-    }
 
     /**
      * 得到进行中测试

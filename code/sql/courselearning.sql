@@ -166,7 +166,8 @@ CREATE TABLE `question`  (
 -- ----------------------------
 INSERT INTO `question` VALUES (1, '单选题', '石大佬迟到了几次？', '2::3::4::5', '无', 'C', 1);
 INSERT INTO `question` VALUES (2, '多选题', '石大佬可能会迟到几次？', '6::7::8::9', '无', 'ABCD', 1);
-
+INSERT INTO `question` VALUES (3, '单选题', '谁能拿金球奖？','梅西::C罗::内马尔::林加德','无','D',2);
+INSERT INTO `question` VALUES (4, '多选题', '谁能进欧洲杯决赛？','意大利::西班牙::英格兰::丹麦','简单','AC',2);
 -- ----------------------------
 -- Table structure for exam
 -- ----------------------------
@@ -185,7 +186,7 @@ CREATE TABLE `exam` (
 -- Records of exam
 -- ----------------------------
 INSERT INTO `exam` VALUES (1, now(), date_add(now(), interval 2 hour), '1::2', 1, 1);
-
+INSERT INTO `exam` VALUES (2,'2020-10-01 10:00:00','2020-10-07 10:00:00','3::4', 2, 1);
 -- ----------------------------
 -- Table structure for user_exam
 -- ----------------------------
@@ -200,6 +201,12 @@ CREATE TABLE `user_exam`  (
   PRIMARY KEY (`user_id`, `exam_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
+-- ----------------------------
+-- Records of user_exam
+-- ----------------------------
+
+INSERT INTO `user_exam` VALUES (2,1,50,'C::ABCD','A::ABCD','0::2');
+INSERT INTO `user_exam` VALUES (2,2,50,'D::AC','C::AC','0::2');
 -- ----------------------------
 -- Table structure for vip_order
 -- ----------------------------

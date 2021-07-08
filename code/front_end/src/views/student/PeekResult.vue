@@ -1,33 +1,92 @@
 <template>
   <div>
-    <!--    TODO 展示内容-->
+    <v-container class="pl-16 pr-16">
+      <p class="text-sm-h6 text--primary">
+      您的得分为：{{ examToDisplay.score }} <br />
+      作答情况如下：<br />
+      </p>
+
+      <div v-for="(op, index) in questionInfoList" :key="op.id">
+        <v-card class="mx-auto">
+          <v-card-title>第{{ index + 1 }}题</v-card-title>
+
+          <v-card-text>
+            <p class="text-h5 text--primary">
+              {{ op.stem }}
+            </p>
+
+            <div v-show="op.type === '单选题' || '多选题'">
+              <div v-for="(oq, idd) in getOptions(op.option)" :key="oq">
+                <p class="text-sm-h6 text--primary">
+                  {{ `${String.fromCharCode(idd + 65)}` }}： {{ `${oq}` }}
+                </p>
+              </div>
+            </div>
+
+            <div v-show="trueOrFalseList[index] === '2'">
+              <v-alert color="green" elevation="3" type="success">
+                正确答案为：
+                {{ `${trueAnswerList[index]}` }}, 你的答案为：
+                {{ `${userAnswerList[index]}` }}
+              </v-alert>
+            </div>
+
+            <div v-show="trueOrFalseList[index] === '1'">
+              <v-alert color="orange" elevation="3" type="warning">
+                正确答案为：
+                {{ `${trueAnswerList[index]}` }}, 你的答案为：
+                {{ `${userAnswerList[index]}` }}
+              </v-alert>
+            </div>
+
+            <div v-show="trueOrFalseList[index] === '0'">
+              <v-alert color="red" elevation="3" type="error">
+                正确答案为：
+                {{ `${trueAnswerList[index]}` }}, 你的答案为：
+                {{ `${userAnswerList[index]}` }}
+              </v-alert>
+            </div>
+          </v-card-text>
+        </v-card>
+        <br />
+      </div>
+    </v-container>
   </div>
 </template>
 
 <script>
-import { getUserExamById } from "@/api/exam";
+import { getUserExam } from "@/api/userExam";
+import { getExamById } from "@/api/exam";
+import { getQuestionById } from "@/api/question";
 
 export default {
   name: "PeekResult",
+  inject: ["reload"],
 
   data() {
     return {
-      userExamInfo: {
+      examToDisplay: {
         userId: window.localStorage.getItem("userId"),
         examId: this.$route.params,
         score: 0,
-        trueAnswer: "",
+        trueAnswer: "-1",
         userAnswer: "",
-        trueOrFalse: ""
+        trueOrFalse: "-1"
       },
 
-      examToCheck: {
+      examTaken: {
         startTime: "",
         endTime: "",
         questionIdList: "",
         courseId: 0,
         teacherId: 0
       },
+
+      questionList: [],
+      questionInfoList: [],
+      trueAnswerList: [],
+      userAnswerList: [],
+      trueOrFalseList: [],
 
       showSuccessDialog: false,
       showFailDialog: false,
@@ -38,12 +97,45 @@ export default {
 
   methods: {
     refresh() {
-      const examId_ = this.$route.params;
-      const userId_ = window.localStorage.getItem("userId");
-      getUserExamById(examId_, userId_).then(res => {
-        this.examToCheck = res;
+      const { examId } = this.$route.params;
+      const userId = window.localStorage.getItem("userId");
+      getUserExam(userId, examId).then(res => {
+        this.examToDisplay = res;
+        this.prepareExam();
+        this.prepareAnswer();
       });
+    },
+
+    prepareExam() {
+      getExamById(this.examToDisplay.examId).then(res => {
+        console.log(res);
+        this.examTaken = res;
+        this.questionList = (this.examTaken.questionIdList || "").split("::");
+        for (let i = 0; i < this.questionList.length; i++) {
+          this.getQuestionInfo(this.questionList[i]);
+        }
+      });
+    },
+
+    getQuestionInfo(id) {
+      getQuestionById(id).then(res => {
+        this.questionInfoList.push(res.data);
+      });
+    },
+
+    prepareAnswer() {
+      this.trueAnswerList = this.examToDisplay.trueAnswer.split("::");
+      this.userAnswerList = this.examToDisplay.userAnswer.split("::");
+      this.trueOrFalseList = this.examToDisplay.trueOrFalse.split("::");
+    },
+
+    getOptions(str) {
+      return (str || "").split("::");
     }
+  },
+
+  mounted() {
+    this.refresh();
   }
 };
 </script>

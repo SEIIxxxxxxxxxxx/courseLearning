@@ -52,3 +52,15 @@ export const getQuestionById = id => {
     return res.data;
   });
 };
+
+/**
+ * 得到课程对应全部题目
+ * @param {*} courseId
+ * @returns
+ */
+
+export const getAvailableQuestionsForCourseId = courseId => {
+  return axios.get(`${QUESTION_MODULE}/getByCourseId/${courseId}`).then(res => {
+    return res.data;
+  });
+};

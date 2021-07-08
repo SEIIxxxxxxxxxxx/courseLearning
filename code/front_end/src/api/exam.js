@@ -1,5 +1,5 @@
 import axios from "axios";
-import { EXAM_MODULE, QUESTION_MODULE } from "./_prefix";
+import { EXAM_MODULE } from "./_prefix";
 
 /**
  * 创建一项测试 POST exam/create
@@ -7,7 +7,13 @@ import { EXAM_MODULE, QUESTION_MODULE } from "./_prefix";
  * @returns
  */
 export const createExam = exam => {
-  const { startingTime, endingTime, questionIdList, courseId, teacherId } = exam;
+  const {
+    startingTime,
+    endingTime,
+    questionIdList,
+    courseId,
+    teacherId
+  } = exam;
   return axios
     .post(`${EXAM_MODULE}/create`, {
       startingTime,
@@ -66,18 +72,6 @@ export const getExamById = eid => {
 };
 
 /**
- * 得到课程对应全部题目
- * @param {*} courseId
- * @returns
- */
-
-export const getAvailableQuestionsForCourseId = courseId => {
-  return axios.get(`${QUESTION_MODULE}/getByCourseId/${courseId}`).then(res => {
-    return res.data;
-  });
-};
-
-/**
  * 得到课程对应进行中测试
  * @param {*} courseId
  * @returns
@@ -94,7 +88,7 @@ export const getContinueExam = courseId => {
 };
 
 /**
- * 得到课程对应进行中测试
+ * 得到课程对应已结束测试
  * @param {*} courseId
  * @returns
  */
