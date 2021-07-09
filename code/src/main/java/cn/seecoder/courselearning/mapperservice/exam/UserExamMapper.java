@@ -11,7 +11,5 @@ public interface UserExamMapper {
 
     UserExam selectByPrimaryKey(@Param(value = "examId") Integer examId, @Param(value = "userId")  Integer userId);
 
-    List<UserExam>selectByUserId(Integer userId);
-
     int deleteByPrimaryKey(@Param(value = "examId") Integer examId, @Param(value = "userId")  Integer userId);
 }

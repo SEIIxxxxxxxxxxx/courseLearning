@@ -70,7 +70,7 @@ public class UserExamServiceTest {
         UserExamVO userExamVO = userExamService.getUserExam(2, examVOS.get((examVOS.size() - 1)).getId());
         assertThat(userExamVO, is(nullValue()));
     }
-
+    // 正常考试查分
     @Test
     public void getUserExam2() {
         examService.createExam(examVO1);
