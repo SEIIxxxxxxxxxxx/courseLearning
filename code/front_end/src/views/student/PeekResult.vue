@@ -28,7 +28,7 @@
               <div v-show="trueOrFalseList[index] === '2'">
                 <v-alert color="green" elevation="3" type="success">
                   正确答案为：
-                  {{ `${trueAnswerList[index]}` }}, 你的答案为：
+                  {{ `${trueAnswerList[index]}` }}，你的答案为：
                   {{ `${userAnswerList[index]}` }}
                 </v-alert>
               </div>
@@ -36,7 +36,7 @@
               <div v-show="trueOrFalseList[index] === '1'">
                 <v-alert color="orange" elevation="3" type="warning">
                   正确答案为：
-                  {{ `${trueAnswerList[index]}` }}, 你的答案为：
+                  {{ `${trueAnswerList[index]}` }}，你的答案为：
                   {{ `${userAnswerList[index]}` }}
                 </v-alert>
               </div>
@@ -44,7 +44,7 @@
               <div v-show="trueOrFalseList[index] === '0'">
                 <v-alert color="red" elevation="3" type="error">
                   正确答案为：
-                  {{ `${trueAnswerList[index]}` }}, 你的答案为：
+                  {{ `${trueAnswerList[index]}` }}，你的答案为：
                   {{ `${userAnswerList[index]}` }}
                 </v-alert>
               </div>

@@ -23,6 +23,7 @@ public class ExamServiceImpl implements ExamService {
 
     @Override
     public ResultVO<ExamVO> createExam(ExamVO examVO){
+//        assert examVO.getEndingTime().isAfter(examVO.getStartingTime());
         System.out.println(examVO);
         Exam exam = new Exam(examVO);
         System.out.println(exam);

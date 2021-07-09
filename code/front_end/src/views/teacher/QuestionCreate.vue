@@ -160,9 +160,11 @@ export default {
       if (this.questionInfo.stem === "") {
         return false;
       }
-      for (let i = 0; i < this.option_num; i++) {
-        if (this.options[i].option === "") {
-          return false;
+      if (this.questionInfo.type !== "问答题") {
+        for (let i = 0; i < this.option_num; i++) {
+          if (this.options[i].option === "") {
+            return false;
+          }
         }
       }
       if (this.questionInfo.type !== "多选题") {

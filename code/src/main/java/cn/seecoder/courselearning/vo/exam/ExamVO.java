@@ -16,6 +16,54 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Data
 @NoArgsConstructor
 public class ExamVO {
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getQuestionIdList() {
+        return questionIdList;
+    }
+
+    public void setQuestionIdList(String questionIdList) {
+        this.questionIdList = questionIdList;
+    }
+
+    public LocalDateTime getStartingTime() {
+        return startingTime;
+    }
+
+    public void setStartingTime(LocalDateTime startingTime) {
+        this.startingTime = startingTime;
+    }
+
+    public LocalDateTime getEndingTime() {
+        return endingTime;
+    }
+
+    public void setEndingTime(LocalDateTime endingTime) {
+        this.endingTime = endingTime;
+    }
+
+    public Integer getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(Integer courseId) {
+        this.courseId = courseId;
+    }
+
+    public Integer getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(Integer teacherId) {
+        this.teacherId = teacherId;
+    }
+
     private Integer id;
 
     private String questionIdList;

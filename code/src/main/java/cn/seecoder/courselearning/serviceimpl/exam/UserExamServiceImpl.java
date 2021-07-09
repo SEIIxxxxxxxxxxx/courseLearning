@@ -48,7 +48,7 @@ public class UserExamServiceImpl implements UserExamService {
         UserExam userExam = new UserExam(userExamVO);
         System.out.println(userExam);
         if (userExamMapper.insert(userExam) > 0) {
-            return new ResultVO<>(Constant.REQUEST_SUCCESS, "题目创建成功", userExamVO);
+            return new ResultVO<>(Constant.REQUEST_SUCCESS, "测试提交成功", userExamVO);
         }
         return new ResultVO<>(Constant.REQUEST_FAIL, "服务器错误");
     }
@@ -81,7 +81,8 @@ public class UserExamServiceImpl implements UserExamService {
 
     @Override
     public UserExamVO getUserExam(Integer userId, Integer examId) {
-        if(userExamMapper.selectByPrimaryKey(userId,examId) !=null) {
+        if(userExamMapper.selectByPrimaryKey(userId,examId) != null) {
+            System.out.println(userExamMapper.selectByPrimaryKey(userId, examId));
             return new UserExamVO(userExamMapper.selectByPrimaryKey(userId, examId));
         }
         else{
