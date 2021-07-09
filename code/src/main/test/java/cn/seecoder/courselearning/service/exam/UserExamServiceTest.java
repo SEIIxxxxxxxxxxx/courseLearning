@@ -73,7 +73,12 @@ public class UserExamServiceTest {
 
     @Test
     public void getUserExam2() {
-        UserExamVO userExamVO = userExamService.getUserExam(2, 2);
-        assertThat(userExamVO.getScore(), is(50));
+        examService.createExam(examVO1);
+        List<ExamVO> examVOS = examService.getExam(examVO1.getCourseId());
+        userExamVO1.setExamId(examVOS.get((examVOS.size() - 1)).getId());
+        userExamService.setUpExam(userExamVO1);
+        List<ExamVO> examVOS1 = examService.getExam(examVO1.getCourseId());
+        UserExamVO userExamVO = userExamService.getUserExam(userExamVO1.getUserId(), examVOS1.get(examVOS1.size() - 1).getId());
+        assertThat(userExamVO.getScore(), is(16));
     }
 }

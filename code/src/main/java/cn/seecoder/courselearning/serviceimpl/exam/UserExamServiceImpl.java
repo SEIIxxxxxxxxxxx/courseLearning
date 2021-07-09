@@ -81,9 +81,9 @@ public class UserExamServiceImpl implements UserExamService {
 
     @Override
     public UserExamVO getUserExam(Integer userId, Integer examId) {
-        if(userExamMapper.selectByPrimaryKey(userId,examId) != null) {
-            System.out.println(userExamMapper.selectByPrimaryKey(userId, examId));
-            return new UserExamVO(userExamMapper.selectByPrimaryKey(userId, examId));
+        if(userExamMapper.selectByPrimaryKey(examId, userId) != null) {
+//            System.out.println(userExamMapper.selectByPrimaryKey(examId, userId));
+            return new UserExamVO(userExamMapper.selectByPrimaryKey(examId, userId));
         }
         else{
             return null;

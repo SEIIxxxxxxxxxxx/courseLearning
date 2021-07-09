@@ -58,7 +58,7 @@ export default {
       ],
       orderList: [],
       vipOrderList: [],
-      items: ["贵族日卡", "尊贵月卡", "皇冠年卡"]
+      items: ["", "贵族日卡", "尊贵月卡", "皇冠年卡"]
     };
   },
 
