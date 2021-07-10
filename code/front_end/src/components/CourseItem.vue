@@ -160,7 +160,7 @@ export default Vue.extend({
     status: function() {
       if (this.cost === 0) {
         return 0;
-      } else if (this.bought) {
+      } else if (this.bought || this.rent) {
         return 1;
       }
       return -1;

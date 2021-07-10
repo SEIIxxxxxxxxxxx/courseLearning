@@ -47,6 +47,12 @@ public class VIPOrder {
         this.endTime = cal_endTime(vipOrderVO.getCreateTime(), vipOrderVO.getType());
     }
 
+    /**
+     * @param endTime 失效时间
+     * @param type  会员时长类型
+     * @return Date
+     * @describe:通过失效时间反推生效时间
+     */
     public Date cal_createTime(Date endTime, Integer type){
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(endTime);
@@ -67,6 +73,12 @@ public class VIPOrder {
         return endTime;
     }
 
+    /**
+     * @param createTime 生效时间
+     * @param type 会员时长类型
+     * @return Date
+     * @describe:通过生效时间推出失效时间
+     */
     public Date cal_endTime(Date createTime, Integer type){
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(createTime);

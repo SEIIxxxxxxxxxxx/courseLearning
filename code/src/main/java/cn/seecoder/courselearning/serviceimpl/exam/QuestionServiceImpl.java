@@ -14,12 +14,25 @@ import java.util.List;
 
 
 @Service
+/**
+*@ClassName: QuestionServiceImpl
+*@Description:题目服务实现类
+*@Version 2.0
+*
+*/
+
 public class QuestionServiceImpl implements QuestionService {
     @Resource
     private QuestionMapper questionMapper;
 
     @Override
+    /**
+     * @param questionVO
+     * @return cn.seecoder.courselearning.vo.ResultVO<cn.seecoder.courselearning.vo.exam.QuestionVO>
+     * @describe:新建题目
+     */
     public ResultVO<QuestionVO> createQuestion(QuestionVO questionVO){
+        // assert questionVO != null;
         Question question = new Question(questionVO);
         System.out.println(question);
         if(questionMapper.insert(question) > 0){
@@ -34,6 +47,11 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
+    /**
+     * @param
+     * @return java.util.List<cn.seecoder.courselearning.vo.exam.QuestionVO>
+     * @describe:获取全部题目
+     */
     public List<QuestionVO> getAllQuestion(){
         List<QuestionVO> ret = new ArrayList<>();
         List<Question> questions = questionMapper.selectAll();
@@ -44,7 +62,13 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
+    /**
+     * @param courseID
+     * @return java.util.List<cn.seecoder.courselearning.vo.exam.QuestionVO>
+     * @describe:获取课程全部题目
+     */
     public List<QuestionVO> getQuestion(Integer courseID){
+        assert courseID > 0;
         List<QuestionVO> ret = new ArrayList<>();
         List<Question> questions = questionMapper.selectAll();
         for(Question question: questions){

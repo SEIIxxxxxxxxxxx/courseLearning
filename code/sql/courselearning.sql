@@ -222,7 +222,7 @@ CREATE TABLE `vip_order`  (
 -- ----------------------------
 -- Records of vip_order
 -- ----------------------------
-INSERT INTO `vip_order` VALUES (1, 2, 1, date_add(now(), interval 1 hour));
+#INSERT INTO `vip_order` VALUES (1, 2, 1, date_add(now(), interval 1 hour));
 
 -- ----------------------------
 -- Table structure for user_info
