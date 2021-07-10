@@ -22,8 +22,13 @@ public class ExamServiceImpl implements ExamService {
     private ExamMapper examMapper;
 
     @Override
+    /**
+     * @param examVO
+     * @return cn.seecoder.courselearning.vo.ResultVO<cn.seecoder.courselearning.vo.exam.ExamVO>
+     * @describe:新建测试
+     */
     public ResultVO<ExamVO> createExam(ExamVO examVO){
-//        assert examVO.getEndingTime().isAfter(examVO.getStartingTime());
+        // assert examVO.getEndingTime().isAfter(examVO.getStartingTime());
         if(examVO.getEndingTime().isBefore(examVO.getStartingTime())||examVO.getEndingTime().isBefore(LocalDateTime.now().minusMinutes(1L))){
             return new ResultVO<>(Constant.REQUEST_FAIL, "测试时间错误");
         }
@@ -46,6 +51,11 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
+    /**
+     * @param courseId
+     * @return java.util.List<cn.seecoder.courselearning.vo.exam.ExamVO>
+     * @describe:返回课程全部测试
+     */
     public List<ExamVO> getExam(Integer courseId) {
         List<ExamVO> ret = new ArrayList<>();
         List<Exam> exams = examMapper.selectAll();
@@ -64,6 +74,11 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
+    /**
+     * @param courseId
+     * @return java.util.List<cn.seecoder.courselearning.vo.exam.ExamVO>
+     * @describe:获取进行中测试
+     */
     public List<ExamVO> getContinueExam(Integer courseId) {
         List<ExamVO> ret = new ArrayList<>();
         List<Exam> exams = examMapper.selectAll();
@@ -76,6 +91,11 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
+    /**
+     * @param courseId
+     * @return java.util.List<cn.seecoder.courselearning.vo.exam.ExamVO>
+     * @describe:获取已结束测试
+     */
     public List<ExamVO> getOverExam(Integer courseId) {
         List<ExamVO> ret = new ArrayList<>();
         List<Exam> exams = examMapper.selectAll();

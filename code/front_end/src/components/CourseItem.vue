@@ -127,10 +127,10 @@ export default Vue.extend({
   },
   methods: {
     buyCourse() {
-      this.$emit("buy-course", this.courseId, this.courseName, this.cost);
+      this.$emit("buy-course", this.courseId, this.courseName, this.cost, 1);
     },
     rentCourse() {
-      this.$emit("rent-course", this.courseId, this.courseName, this.cost);
+      this.$emit("rent-course", this.courseId, this.courseName, this.cost, 2);
     },
     handleStudy() {
       if (this.hasLogin) {
@@ -160,7 +160,7 @@ export default Vue.extend({
     status: function() {
       if (this.cost === 0) {
         return 0;
-      } else if (this.bought) {
+      } else if (this.bought || this.rent) {
         return 1;
       }
       return -1;

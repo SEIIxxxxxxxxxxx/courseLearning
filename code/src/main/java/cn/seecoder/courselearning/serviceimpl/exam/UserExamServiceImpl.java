@@ -12,12 +12,25 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @Service
+/**
+*@ClassName: UserExamServiceImpl
+*@Description:用户测试服务实现
+*@Version 3.0
+*
+*/
+
 public class UserExamServiceImpl implements UserExamService {
     @Resource
     private UserExamMapper userExamMapper;
 
     @Override
+    /**
+     * @param userExamVO
+     * @return cn.seecoder.courselearning.vo.ResultVO<cn.seecoder.courselearning.vo.exam.UserExamVO>
+     * @describe:作答测试
+     */
     public ResultVO<UserExamVO> setUpExam(UserExamVO userExamVO) {
+        assert !userExamVO.getTrueAnswer().equals("");
         clearExamHistory(userExamVO.getUserId(), userExamVO.getExamId());
         List<String> userAnswer = userExamVO.splitUserAnswers(userExamVO.getUserAnswer());
         List<String> trueAnswer = userExamVO.splitTrueAnswers(userExamVO.getTrueAnswer());
@@ -62,7 +75,11 @@ public class UserExamServiceImpl implements UserExamService {
         }
         return false;
     }
-
+    /**
+     * @param flags 每道题的正误情况
+     * @return int
+     * @describe:计算成绩，其中多选题不全均按50%计算，最后转换为100分制
+     */
     private int calScore(String flags){
         double ans;
         int res = 0;
@@ -80,6 +97,12 @@ public class UserExamServiceImpl implements UserExamService {
     }
 
     @Override
+    /**
+     * @param userId
+     * @param examId
+     * @return cn.seecoder.courselearning.vo.exam.UserExamVO
+     * @describe:通过用户id和测试id获取测试结果
+     */
     public UserExamVO getUserExam(Integer userId, Integer examId) {
         if(userExamMapper.selectByPrimaryKey(examId, userId) != null) {
 //            System.out.println(userExamMapper.selectByPrimaryKey(examId, userId));

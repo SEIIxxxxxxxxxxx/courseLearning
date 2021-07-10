@@ -25,6 +25,11 @@ public class VIPOrderServiceImpl implements VIPOrderService {
     private UserService userService;
 
     @Override
+    /**
+     * @param uid
+     * @return cn.seecoder.courselearning.vo.ResultVO<java.lang.String>
+     * @describe:获取当前用户会员到期时间
+     */
     public ResultVO<String> getVipEndTime(Integer uid) {
         List<VIPOrder> data = vipOrderMapper.selectByUserId(uid);
         Date cur = new Date();
@@ -52,7 +57,15 @@ public class VIPOrderServiceImpl implements VIPOrderService {
     }
 
     @Override
+    /**
+     * @param userId
+     * @param type 购买会员类型
+     * @return cn.seecoder.courselearning.vo.ResultVO<cn.seecoder.courselearning.vo.order.VIPOrderVO>
+     * @describe:创建会员订单并支付
+     */
     public ResultVO<VIPOrderVO> createVipOrder(Integer userId, Integer type) {
+        assert type <= 3 && type > 0;
+
         int[] costs = new int[]{5, 20, 180};
         int cost = costs[type - 1];
         UserVO user = userService.getUser(userId);
@@ -75,6 +88,11 @@ public class VIPOrderServiceImpl implements VIPOrderService {
     }
 
     @Override
+    /**
+     * @param uid 
+     * @return cn.seecoder.courselearning.vo.ResultVO<java.lang.Boolean>
+     * @describe:判断用户当前是否是vip
+     */
     public ResultVO<Boolean> isVip(Integer uid) {
         List<VIPOrder> data = vipOrderMapper.selectByUserId(uid);
         Date cur = new Date();
@@ -87,6 +105,11 @@ public class VIPOrderServiceImpl implements VIPOrderService {
     }
 
     @Override
+    /**
+     * @param userId 
+     * @return java.util.List<cn.seecoder.courselearning.vo.order.VIPOrderVO>
+     * @describe:获取用户全部会员订单
+     */
     public List<VIPOrderVO> getVipOrder(Integer userId) {
         List<VIPOrder> data = vipOrderMapper.selectByUserId(userId);
         List<VIPOrderVO> ret = new ArrayList<>();

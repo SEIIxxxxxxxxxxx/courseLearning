@@ -55,7 +55,6 @@ public class CourseOrderServiceImpl implements CourseOrderService {
         this.courseService = courseService;
     }
 
-
     @Override
     public ResultVO<CourseOrderVO> updateCourseOrder(Integer orderId, Integer orderStatus) {
         CourseOrder order = orderMapper.selectByPrimaryKey(orderId);
@@ -183,14 +182,26 @@ public class CourseOrderServiceImpl implements CourseOrderService {
         return new ResultVO<>(Constant.REQUEST_SUCCESS,"获取订单信息成功",orderVO);
     }
 
+
     @Override
+    /**
+     * @param orderId
+     * @param duration
+     * @param rentCost
+     * @return cn.seecoder.courselearning.vo.ResultVO<java.lang.Boolean>
+     * @describe:支付订单
+     */
     public ResultVO<Boolean> payOrder(Integer orderId, Integer duration, Integer rentCost) {
         CourseOrder order = orderMapper.selectByPrimaryKey(orderId);
         // 当订单状态为未支付时，检查用户余额是否足够
         UserVO userVO = userService.getUser(order.getUserId());
 
-        if(order.getType()==1)duration=3650;
-        else order.setCost(rentCost);
+        if(order.getType() == 1){
+            duration=3650;
+        }
+        else{
+            order.setCost(rentCost);
+        }
 
         if(userVO.getBalance()>=order.getCost()){
             userService.decreaseBalance(userVO.getId(),order.getCost());
