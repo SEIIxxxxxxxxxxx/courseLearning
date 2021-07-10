@@ -15,7 +15,9 @@
           购买时间: {{ o.createTime }}
         </v-card-subtitle>
         <v-card-actions class="pa-0 pl-2">
-          <v-btn text @click="handleStudy(o.courseId)">学习课程</v-btn>
+          <v-btn v-if="o.status === 1" text @click="handleStudy(o.courseId)"
+            >学习课程</v-btn
+          >
           <v-btn v-if="o.status !== 1" text>尚未支付</v-btn>
         </v-card-actions>
       </v-card>

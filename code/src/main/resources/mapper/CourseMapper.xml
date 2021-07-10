@@ -98,7 +98,7 @@
     left join course_likes t
     on c.id = t.course_id
     where exists (
-        select o.id from course_order o where o.course_id = c.id and o.user_id = #{userId}
+        select o.id from course_order o where o.course_id = c.id and o.user_id = #{userId} and o.status = 1
     )
     group by c.id
   </select>
