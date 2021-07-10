@@ -24,7 +24,7 @@ public class ExamServiceImpl implements ExamService {
     @Override
     public ResultVO<ExamVO> createExam(ExamVO examVO){
 //        assert examVO.getEndingTime().isAfter(examVO.getStartingTime());
-        if(examVO.getEndingTime().isBefore(examVO.getStartingTime())||examVO.getEndingTime().isBefore(LocalDateTime.now())){
+        if(examVO.getEndingTime().isBefore(examVO.getStartingTime())||examVO.getEndingTime().isBefore(LocalDateTime.now().minusMinutes(1L))){
             return new ResultVO<>(Constant.REQUEST_FAIL, "测试时间错误");
         }
         Exam exam = new Exam(examVO);

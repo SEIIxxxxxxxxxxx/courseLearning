@@ -39,7 +39,7 @@ public class UserExamServiceTest {
         setCourseId(2);
         setQuestionIdList("3::2");
         setStartingTime(LocalDateTime.now().minusDays(1L));
-        setEndingTime(LocalDateTime.now().minusHours(2L));
+        setEndingTime(LocalDateTime.now().minusSeconds(1L));
         setTeacherId(1);
     }};
 
