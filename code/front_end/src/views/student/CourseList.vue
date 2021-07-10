@@ -686,9 +686,15 @@ export default {
         }
       });
     },
+    /**
+     * @description 跳转至历史订单界面
+     */
     goToOrderList() {
       this.$router.push("/student/history");
     },
+    /**
+     * @description 确认支付订单
+     */
     confirmPayment() {
       this.settleDialog = false;
       this.settleDialog4 = false;

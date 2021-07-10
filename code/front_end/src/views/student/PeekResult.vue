@@ -1,3 +1,7 @@
+<!--
+@name: PeekResult.vue
+@description: 查看测试结果
+-->
 <template>
   <div>
     <v-container class="pl-16 pr-16">
@@ -152,7 +156,9 @@ export default {
         this.questionInfoList.push(res.data);
       });
     },
-
+    /**
+     * @description 初始化答案相关数据
+     */
     prepareAnswer() {
       this.trueAnswerList = this.examToDisplay.trueAnswer.split("::");
       this.userAnswerList = this.examToDisplay.userAnswer.split("::");
@@ -161,10 +167,6 @@ export default {
 
     getOptions(str) {
       return (str || "").split("::");
-    },
-
-    getAnswer(str) {
-      this.trueAnswerList.push(str);
     }
   },
 

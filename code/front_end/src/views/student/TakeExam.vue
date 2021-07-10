@@ -1,3 +1,7 @@
+<!--
+@name: TakeExam.vue
+@description: 学生作答测试
+-->
 <template>
   <div>
     <!-- alert -->

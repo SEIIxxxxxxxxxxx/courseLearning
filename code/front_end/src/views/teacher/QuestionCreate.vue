@@ -1,3 +1,7 @@
+<!--
+@name: QuestionCreate.vue
+@description: 创建题目
+-->
 <template>
   <div>
     <!-- alert -->
@@ -156,6 +160,10 @@ export default {
   },
 
   methods: {
+    /**
+     * @description 检验输入是否规范，可以提交
+     * @return {boolean}
+     */
     checkSubmit() {
       if (this.questionInfo.stem === "") {
         return false;
@@ -194,6 +202,9 @@ export default {
       }
       this.options = ret;
     },
+    /**
+     * @description 规范选项为字符串
+     */
     formatOptions() {
       for (let i = 0; i < this.option_num; i++) {
         this.questionInfo.str_option += this.options[i].option;

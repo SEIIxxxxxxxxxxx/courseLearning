@@ -204,7 +204,9 @@ export default {
         }
       }
     },
-
+    /**
+     * @description 处理VIP购买请求
+     */
     handleVip() {
       this.convertType();
       console.log(this.type);

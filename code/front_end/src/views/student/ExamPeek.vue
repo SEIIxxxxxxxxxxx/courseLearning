@@ -1,3 +1,7 @@
+<!--
+@name: ExamPeek.vue
+@description: 获取测试
+-->
 <template>
   <div>
     <v-container class="ma-8 pa-4">
@@ -127,11 +131,19 @@ export default {
         this.overExamList = res;
       });
     },
-
+    /**
+     *
+     * @param examId
+     * @description 进行中测试
+     */
     takeExam(examId) {
       this.$router.push(`/student/takeExam/${examId}`);
     },
-
+    /**
+     *
+     * @param examId
+     * @description 已结束测试
+     */
     peekResult(examId) {
       this.$router.push(`/student/PeekResult/${examId}`);
     }

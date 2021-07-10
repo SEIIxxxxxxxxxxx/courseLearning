@@ -1,3 +1,7 @@
+<!--
+@name: ExamCreate.vue
+@description: 创建测试
+-->
 <template>
   <div>
     <!-- alert -->
@@ -128,7 +132,9 @@ export default {
         this.examInfo.questionIdList.length - 2
       );
     },
-
+    /**
+     * @description 题目列表初始化
+     */
     prepareQuestionList() {
       console.log(this.questionToBeChosen);
       if (this.questionToBeChosen.length === 0) {
@@ -206,6 +212,11 @@ export default {
         }
       });
     },
+    /**
+     * @description 检验时间格式
+     * @param date
+     * @return {boolean}
+     */
     check(date) {
       const reg = /^((((19|20)[0-9][0-9]-(0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))|((19|20)[0-9][0-9]-(0[2469]|11)-(0[1-9]|[12][0-9]|30))) (20|21|22|23|[0-1][0-9]):[0-5][0-9]:[0-5][0-9])$/;
       return reg.test(date);
