@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 /**
 *@ClassName: UserExamServiceImpl
-*@Description:用户测试服务实现
+*@Description:用户测试服务实现类
 *@Version 3.0
 *
 */

@@ -17,6 +17,13 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+/**
+*@ClassName: VIPOrderServiceImpl
+*@Description:会员订单服务实现类
+*@Version 2.0
+*
+*/
+
 public class VIPOrderServiceImpl implements VIPOrderService {
     @Resource
     private VIPOrderMapper vipOrderMapper;

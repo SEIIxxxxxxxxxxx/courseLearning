@@ -246,19 +246,19 @@
               </v-col>
               <v-col cols="12" sm="6" md="4">
                 <v-text-field
-                  label="租用费用"
+                  label="租用费用（元）"
                   v-show="rentTime === 7"
                   v-model="rentMapper[rentTime]"
                   readonly
                 ></v-text-field>
                 <v-text-field
-                  label="租用费用"
+                  label="租用费用（元）"
                   v-show="rentTime === 15"
                   v-model="rentMapper[rentTime]"
                   readonly
                 ></v-text-field>
                 <v-text-field
-                  label="租用费用"
+                  label="租用费用（元）"
                   v-show="rentTime === 30"
                   v-model="rentMapper[rentTime]"
                   readonly
@@ -270,7 +270,12 @@
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="primary" text @click="openSettleDialog3">
+              <v-btn
+                color="primary"
+                v-show="rentTime !== 0"
+                text
+                @click="openSettleDialog3"
+              >
                 确认租用方案
               </v-btn>
               <v-btn color="primary" text @click="settleDialog3 = false">
@@ -681,15 +686,22 @@ export default {
         }
       });
     },
+    goToOrderList() {
+      this.$router.push("/student/history");
+    },
     confirmPayment() {
       this.settleDialog = false;
       this.settleDialog4 = false;
       this.settleDialog3 = false;
       payOrder(this.currentOrder.id, this.rentTime, this.rentCost).then(res => {
-        this.snackBarColor = "success";
-        this.snackBarMsg = res.msg;
-        this.showSnackBar = true;
-        this.reload();
+        if (res && res.code === 1) {
+          this.snackBarColor = "success";
+          this.snackBarMsg = res.msg;
+          this.showSnackBar = true;
+          this.reload();
+        } else {
+          this.goToOrderList();
+        }
       });
     },
     leaveSettlement() {

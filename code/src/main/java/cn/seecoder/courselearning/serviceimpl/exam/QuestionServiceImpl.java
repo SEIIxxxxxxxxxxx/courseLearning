@@ -16,7 +16,7 @@ import java.util.List;
 @Service
 /**
 *@ClassName: QuestionServiceImpl
-*@Description:
+*@Description:题目服务实现类
 *@Version 2.0
 *
 */
