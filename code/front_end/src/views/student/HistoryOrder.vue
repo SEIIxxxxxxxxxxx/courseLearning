@@ -30,10 +30,10 @@
         </v-card-title>
 
         <v-card-subtitle class="mt-1">
-          购买时间: {{ v.createTime }}
+          生效时间: {{ v.createTime }}
         </v-card-subtitle>
         <v-card-subtitle class="mt-1">
-          到期时间: {{ v.endTime }}
+          失效时间: {{ v.endTime }}
         </v-card-subtitle>
       </v-card>
     </v-container>
