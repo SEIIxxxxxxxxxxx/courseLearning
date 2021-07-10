@@ -43,7 +43,7 @@ public class ExamController {
     /**
      * 返回对应测试号的测试
      */
-    @GetMapping("getExamById")
+    @GetMapping("/getExamById")
     public ExamVO getExamById(@RequestParam Integer eid){
         return examService.getExamById(eid);
     }
