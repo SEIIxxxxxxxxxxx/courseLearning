@@ -216,6 +216,8 @@ public class CourseOrderServiceImpl implements CourseOrderService {
                 c.add(Calendar.DATE, duration);
                 Date newDate = c.getTime();
                 order.setEndTime(newDate);
+                order.setStatus(Constant.ORDER_STATUS_SUCCESS);
+                orderMapper.updateByPrimaryKey(order);
                 return new ResultVO<>(Constant.REQUEST_SUCCESS,"付款成功");
             }else{
                 return new ResultVO<>(Constant.REQUEST_FAIL,resultVO.getMsg());
